@@ -1,2880 +1,333 @@
-import streamlit as st
-import sqlite3
-import pandas as pd
-import hashlib
-import time
-from datetime import datetime, timedelta
-import json
-import os
-import re
-from typing import Dict, List, Optional, Tuple
+#!/usr/bin/env python3
+# Tutorial Video App - Protected Version
+# Generated automatically - DO NOT EDIT
+
 import base64
-from io import BytesIO
-import requests
-import uuid
+import zlib
+import sys
 
-# ... your other imports ...
-print("Current working directory:", os.getcwd())
-# PWA Configuration - ADD THIS SECTION HERE
-def serve_manifest():
-    manifest_path = os.path.join(os.path.dirname(__file__), 'manifest.json')
-    with open(manifest_path, 'r') as f:
-        manifest = json.load(f)
-    return manifest
+# Application data
+UWtvDzDBQHSL = "eNrtvWtzG0m2IPadvyIb3L4A1AAEPqRuoZvS8Cmhh6TUBKkXl4stAAWyWgAKU1XgQ7qMWDt2IhzX6929d653wxP3evaDHXZs7OcN"
+RTKJGNZreMzI = "O8KxP6b/gOcn+Jx8VWZW1gMkpdYdSz0joaoyT75Onjzv9MZTP4hIGAWuMx55EXFCeFjw+OvfwSt3RTxOnckAvsP/pgPx7swJz0Ze"
+HSaYDKFyaVJN = "TzxG3thdGAb+mAycyMUnwr+I5xotM3BHkSMq/Rz6E/HbD8WvgAOKrqbe5FSA2fL6UY3seiH8/Xwaef7EGdXI4Ww6ckXFnhO6D1dZ"
+axxxYFjLTWio = "Zc8XFTeuIjdsP4+h/27mhpFsbTbzBgsLi6TRaJArfxYQPzpzA145xNcL08CbRJXS5iwI3ElELvzgHXZs4AVuP/KDq1apBt1vnLpR"
+CuRbRHbPlsnv = "/2JQqVYB2otX62TTnwy901ngYGdJnaxvbZHDZ+0O6WxvHraf75Nn2wfbCwN3SEI3OHe7Y2fiDaFrlWprgcAf8dydOtEZWcMm8Ffj"
+KsszmQYArmVN = "Z9+bVMQDdGLijN1Ktzv0Rm63W62RsqjYwPktVymwCw9g+FN3UtHAQumgXMWVHbJG1YahTYTQGPnOoDJkcAI3mgUTWWSB9t8ZDLrT"
+krGzSTxvhJaK = "C6d75joDNwjFAKAHYyd4N/AvJpVSqUTf/TDyJu8AymitJGCUyFngDtdKgChOy5lOR16fTtl9bPx7tqi1D9elxwzA2I0cgmNeK8FK"
+kMCgIpKxDdWh = "jd163x/5QYn0/UkEy7NWWmzSP5by5557gcuqFL7wBtHZ2sA99/punT7UiDfxIs8Z1cO+M3LXljggGEFj6AdjJ6rImep2GZ50u5Uy"
+HbiUztnmgJyl = "62i52ug9XHUnfX/gxuXwD53KwWw8DSvmelcbvEJV1qg2Bq7yCpZ1Ngmdodt1RiP/onsWjUdrh8HMrSLubsJLinJ8AQB7Yad5sPFG"
+PmSQbCFOoZLY = "Vyriba7v7jKsS6wYgnmD6O9ewhZD9O5I0oD9oDPmTWDrkJ4LPcB9AesbedHIrZTWgyuHbA9mbOFKVb6fAkQif8j2lQRMwWH9RYLI"
+POOvcVxOWsAd = "c+YN3K6kQ/DrCiACBi3SeeBf2WtASMQj9uUH+uoxf7p/jzyDouSpFz2b9cjIP/XJvfv8YwMX3g02nMGp28WBON7EDbrdpZ86fq9m"
+VgNZSUXflUni = "K4RYCt87SyvfWr9H7iUs+tKPztZvyQdeAP8MvHA6cq5aZOJPXPIVww5nEn3Py1zT1TT6HM/02J3M4m4v7kE/9/CV2sS5F3o9D0pD"
+BBYSbcKOkpEk = "KzA7A3eSCXzo+xHQMwmUP98CIsOZGCJ/vgXE0pY7HflXJdKbRRHQSm/IIMCKx2sYRqzUBiuTOutxSxxP7muIEiOQSp40NMvca+uD"
+ugSCceoqokqc = "AYnOvJD0cdM5Q5xMy25aWLTjNUA4gGE4fdfYFWd0sWaTPj0tKLnGZhbkFjmFV7NeFzFbEFgYy/bkzJn03QGgTnTmQ9d8BkndB31/"
+PQRKiHEfnDZm = "DKckEgNBhRfStpa6sfgKbULtwD1zJ6F3rsMFANhzWKICmyxzi5GFrB1Wy4QfPIicd6nwf3fQ7vu1VPCHSz++zgb/7QowCKngl3dW"
+XHtCpwuBEDWr = "94NU8MsHv3vznn11jvGQu7dWYstYIt6J8UGiCn4jIfBcrMDAOz/Go7EObEzkDbDgoe+Pek5QOkktsQWHB2M8Mgp1Iieaha886HAk"
+VujaRxWhVvVG = "iqk0J5+ope93azF/6vRpmab185nrnZ5FaV/p4Zz2ceqHHo62RZxe6I9mkb2fI3cI8OuP4M/0MlHiOt4bgPd7PozIhYVw+97Q6ws0"
+kBXCkdmeYPnO = "/w09WYk/gaM17AcuDBW4YwJs1WWdd/Hbh99NL6vKBN477o+cMLzHOBA3iFdf/9pD3NE/WvBGAVxsda6V0UlqKIf6A4zCm0bsjSRA"
+znynzUhpeDFX = "gTv2z1222yvqWGBrwKHujoDzmgB/vEYGfn+GvxvAVwdXHfiCTPH6aFQpm50/qRFzJtRXbPgn5WrcddEOcl7bTv+s4o7I2mN43WAd"
+mFDLAnZVbkQO = "BN5JXbvQjQ5ByPBnUUUdQI0sNZu8IBRpA+8XnDujZBlRCGZJmRRBGG9yYCD5hr733W4GEf/ROXc6tME6cpEDjcqyTgZKJ5Cew1rj"
+xJpockIvlxJb = "tJwvNbC1mL22LiY2bVnK+/fJoRPA5gcBj0o2YilJJWZJgCGvGosPxWDdL7wJzESDVW2IqvHSqc0c0DHIYQHpDA2YbGJ28QvDqSLo"
+JieRgAEVtiYm = "pGKKAkAiC5U1AF30DYNvG3TdGnzvQItl3D3l75MFBZ4p26maOUiKxUSeIOZA6ef0Mc65Pxg0OWDWdmLE9HWhIbOSc485YgeSMVT+"
+RzoqMcYXpxfg = "Nn2saceaOkIORA4Rn3GE+K+dCCyIvs1ATp2NIg+YH6p7CCXbIzbD9ybViD/WyAOVZtgKKAQjpcRyXEL0apPJUf4sJGMfBE0/AB4q"
+FiLiKRMrnBqP = "QZlSgCToUo0fmmvNKjRBqc1k1h+5TsDoDeMKFVKz64SoAwlR9VFnrCLsWi/ANZwS2MsOuThz4ZHSnjHCRhIAAG1UMIVlfKaDrQcU"
+NcpWTLSbhICI = "DHAkE2SWsQ3BM4bR+nRKHiN30hp6QRjV+2feaMDfAN6LF0W5Ef0Mpx1xJldk6F0CWRVcAvyUB5jek2M6ENhrMUNBq5ZObtgDxkW0"
+KDfdxKFXFsbS = "WE/CMcoMsunozMFZmcHwemzCQ4PLyOQqeJcZVbxDroCiVeqBBgLM2l3+QfXF8/2d9tOjg3WqFVvf3yKd7cOjF3feEkpvMGGaXm5h"
+PGnjgVmRbhkW = "/cWLLusA0Ck2h2VA+C5qjMotUtZVG2GZsWblyDmF44GW2IXNMamRp4F/USOdWb/vugNRDNavew5L73dD7z2WBppB7sHfy6v8nxrw"
+JFCWlLIjZpXJ = "3Ph2b4PVCN0whIa6ESMnUGWlScuMgWpEnIaVnVnkUy5iFtGSCPm7Jiu40hRliTcBqgLEeBAuXOPwt4DgIodhzMHWRnenvbuNZ0I0"
+hOTYoMDvoJZd = "Q4rkjLowB41Br/wx1hs1VWyVN48O2odvyPb+s/X9ze297f3Dzt2vOhJFb/IznDtUSAduvQuTMgtAElEIY5uWoH2T+k9k7EVRMnRB"
+FBwzYJBwhqrC = "WgLKqcnQbDB7aoWOqLDZ6dz/sZNKMxPsGj8gEGAHTgGv75JXfvAOSOaBe+qBeMgWSxT1hqRSDllBVq6M6z1xzr1TBxaxalAEzq85"
+dmvhKfJKCVyy = "g8H2OZAf1KS7QI8rZVTvlmuSW6yYFfGPhNrQWoQDGHuGUO6HF42fw3I1UZWSqujMnVRkC4EyHltrKhvhA88CiF4pd14R0Zo7gG1X"
+cguPmqRKDTbu = "IxqY761QrqsN2LjANljb3g6C5Dzld4Br9IcOUPZkTxjQtO7o79Vn2KAKFrxEokFeBH7k9rn9YMsLHVSJ0dO03h95/Xc18s696vlO"
+xkuQUECHrKFc = "AHh6BgS+P4tiflMKZsklp+rvywjVjerKu+ZcuI1p4GLVLXfoACtVMfrPrQFDZxS6OrNYpBfQd9wRmT2AqRDj3llarpHNKBh90znz"
+CyQCGALSytdM = "htE3be3pR/50JN5qYHCzuA1ocBOVz2trZGl5hfz1X5PEKkGpPlT/rXtF/uqvYPwhAudPOoRvKQD91Wq1Ci9zgOpgvnuQAPPdSrVq"
+rXdijURqacOI = "w8q81UhfkfikT6yPMsGIEkDvRgzjiqwgKxxGThB9bDyCfnaYuuUAdVtU87jlRkZfRy4q0YF12qIWHZSzYtKlfvheo6NaFVgi9Rnt"
+pUCPBvAHfiGC = "eluMm9rD1+bYmKwDh+apN3FGT/XC0H4WLH0WskoCoEwC7YzcIKqUf/njf/p//69/J2YqkDM1oDPlDr4ih6i7dhhNgV8TH04tZPLc"
+moFtJyZHMFGy = "QaOcjk9AiMZeiJIhnpKViXtBKJ0Dqmg21Rv5/XfAAVVNWpdG6mDE7sifwjmHAmCYsqoD9zyin9eM0aNRs8VQp6Z/CDzAOIdx8ZPZ"
+vozaRnAPoLUB = "aLRg6YopsgIvDZQUOHIgEQ+blnKqlJa6IohT/LwFDs0NnlEhDWg4f+lNJvLlY6VRG0VS4bxCUcAAw94pUGzogR36SkxhA6cs7djT"
+SBZbDhVDomwR = "CsEsRMD22w8zSRd6/uCKaxeG3ggNIsBI9kazoPIAJJayvbaOsDEOsEWO8fUFCLPAsPZHPvyNBl80cQhjpBVlr3W0A3kLatqn5EYz"
+XbKPowyCfaPk = "YqGtxabEom+x9DfGUqGCUDfLKweAIS9JUCmIipyhHxAqYsQnv1T8AcWWFSp2wsWqZutxaZkazFiAQpEx5QyA1M/IPUHfp+Ii/dpA"
+tgOotOzDPpcP = "BRBsqMaF6KQ7SFsF1ltZUO0wUCB4vc3E6kp54J2XU/gvWZ3vwMO9XVwYQ8aDDVYm35AKF8U6MA3OqYsUuR25Yzj1otkAWmIiIh74"
+DHSBTMGEKFub = "pNxhr/LbZTjRD8NDPGzXyL9M5T2TJo3vU8tG/hRFy+llepGA2VayC/Wc/rvTwJ9NgK0NTntOpVmj/zW+rX6fwSSP/KBFLs68rC5O"
+EpcXTPoKEDis = "ARfheGgRoAk5vRjC7q6jvAzdXc4q+L4OdNC9bBE06GQ07XtIseuUAwmFlTh1DuAcg8KBM/BmUHglrQP/0v46A3mlThjWneE/U55z"
+MEQCIDYhzGaU = "zLXDw90iK+bIKqwQxzGBP4jggTsC1D53y98XqI7qvslgE9VuFYm4aQKN9W3q5qYaBjhQ8qlgqmC0Pp2OrhQ6cAGSpSBiKMkaB7rf"
+vlvTQBykElyl = "o842OOXItOzNGEPwnL+uqBRSaVNUa/AfFY2y18gHQtWSyAm36BFZI+GsFwErxB5TFeZt5lukDEDxeFKZDKFOVjuoqZx1fbCiUog1"
+XekcDLbtVdTs = "eVwHKfh7Okt0oQM8Y6n6kfJ+BMUwnDzFnC/XsdWqX7i9d15Up/xpXdSvi0r1nvDIuIkCUpug7AaHwMMxk+vNmyzY1NTro7IH6Iv8"
+UgeyOZpptcAW = "efsmlaXQRS11zu8ZLYgOzgAP66yGjYLVx/77/DJhXpGMz/pA1ineGMOgRnEP5IrJdBaRoeeOBqE6Nvq+RmtRK0CBkdIWbPNqH3RO"
+VQhTrSkUYjjx = "8XCO0sVK6rPCfQZQhedPI2/svecchTIJRVT7VGc2BnLMDCEWqi+P02bjQeCO00R9bifgPlOPiRWJVd+LlQQw80RuLOW1d+GO+v7Y"
+OaqRkvVhzZop = "rVPnQEtbCrRlgJW6AtdJUqEaPw6BLyLMhog6bcCetVLk9OojIMol0x5y6kxxrpa1vs8DNgHRWAGSnBZlnM3GowItA5K16dZhqy7+"
+oDdNXZqGRZHB = "ZtvpQxrspTzIOBbKuqfDaDa+M6CoaM2UkdNYGSlkDwWtG5Sg1sUXY65yeFnKvzYN6zv11TFe8g0Dx+DX+geBv8kv+dyfZCPxdLWd"
+oofUDBrkzuub = "T9I8Fr/5ql7XVf/oeUDq9fjgvamns3vhn7Y3f5y9ebU0av8Mv9/tXLmvtk8PXh0svVneaTqvHs36Vxv7veUfp72nR6c/vd64aHsX"
+UZTdpYWSiLQd = "v21vrnv95bPz/uRg2BvvRG877YcAZ6M/GZ21t1++G3Ta4aa3ftoeH4z6y/tXzusNCou1sXT+ZjwK33Y2wrevdq5649Hs7dXGRe/p"
+rNFZCZdLkIDb = "TvPt+NFVr7Mx7q20oa0fH7zpbOy8ffby5zevD6a95Qfv28/2m4NXB6Pe5OB9e7N5erDycvr26ct37ac/PmhvL13tehuHb14Nzvre"
+kBwXUzjXJTcE = "xi6Uf/e2sz7m7ztvXp0t9TY3Np1nL3/3ZrwTynGsHJzhOAavfwxp/7zvvN11Oi/vnNf72K8H9P1kv/nm1YN3b15dnvfGR6KM9+bV"
+yJPhKffuRrju = "fvB25cfzAXx7vbx/3nv66IrB2R+/pf+9EWWbztOX0duXj37uLV+e9z2cs/bPB+/eLP/089tN0Z/eyo/Tt68eNNmYV73nHvQRYA6e"
+JlvqfUhvrddx = "/XjmvP5JwHr/ZvnRBZv39rms+3QH5pKuxajniTXYPxs8fTmhcF/vAbyNXnsMa/QK34/OsRyUV9aCPjcHrw/O++PRWW/zxwFvcwpt"
+nQfQFaNmwlKN = "Aj4A/J0Q2zttP+P/4v8n+1dvWNv+4NnBRf+9f7678nb6pvMA5/Dnt6/OYG4AH7wHMP7m+d7huyt3a/vBnvfo6QGMf/9d+/wtn7EX"
+ERFfELFpuTpF = "Kwcj99lPj346EvNM2wCcGz1kY1j34vp8nLTMj0339QbD5fEoAlwY7a5s0DEpZS5grS96K/u83M7M7WxEb17vB29ewTx02nxsTV5n"
+AdauVVRPYBuZ = "41ul7vv+mLXvPDto9p/tPdy9erTsvNqe9Z9enr1ZfunD2r57+7o9g7mKdt8fXe5NTpf2DtvnYp13l/kof37UfPv6rPniaGeHr5+Y"
+EKANKVzoXtOw = "x6k7fvme9u1nWV+bh8GzEV972JevdiZvO48ueuO+PlfPXl4B3rzn5c56k3enUPa9s7wDeHLk8bE9wn9f/zR9VCL3Hye5ZEp8OKsh"
+GxfpdywrrWYT = "Qhqo6ZEaLzHcIXJOQ50Y3ToKokaAYfHGs3H8gnFI8IQs7drEL9nbS4nS2Nl5uPFwI6UOEkcX2DscI/KFdXhR7ztTbEkBcuWG8wAI"
+UUxygDZMJNxh = "qcMrHOvQbSToCqQBM0zMA42yNwoIQ4tUsh4FDFLkz/pndQ+qiiPhLIqmYev+/XPPaVD3cNTkgvwJjNT9pe+al/D/+2zG7g/pnyfI"
+UTFheNxdKTQp = "kq6tb5eKOG2gCZxpyZjp2+VOCZH/zp1UhD7LG7QwIKzGZCPxWCX1x/ivtJRvUkDMMI7+PQAiVkISp993Q2kkp25XkTOegvwNMCoY"
+cqpDwcRMkidZ = "SIXvGvhXpVpl5mIKo4unIqpXSx/iDl23PojOwE8J7boU14MqPBatEZ45yw8eVmJwMq6m2jhzLwfeKQ23OW4tPTxRo5mgSVrHaIJO"
+ajOWTBmCJTzN = "G/Az3vBqjvmqsW7Fc9fz/ZGcvJcUnDZXrLycseCqpTi/4UhweDVtKun7BoieXlQptxSje5/FqFGfEChnTrcB2ChFoVeT9GaRHNKJ"
+awqdYAvQqRuv = "di+nXuCGPOhheZWc+TPFv9Eb6s3X1VYek+8erjabLZvZbwcV6gtWJRo0Se0AN0AOrTpOYRJRNOh5uKL1i/c8Xh+022qtLbD2++40"
+GtdzmdcKgqcq = "ai1YB0zRa+SfctxiyJCLXMx0x7Ar9urzT3WUwv3ozAZeJNAKSA3uFB7Y2cBHNORxzx+26LB6oY+aMvzaYE88/ow7u/CtTyHDIYOa"
+JmzzTJFMpEPU = "DFh1tCHSOJZQAdNwL4FARG6lXC7L8W8ebK8fbpPD9Y3dbdLeIfvPD8n263bnsMOHySDrgXPegLT3D7efbh+QFwftvfWDN+S322/I"
+XIudbIxAiwif = "+tHh8/Y+QES3Id3yF88hOdx+bXwU82n5xM2iyQ/etAvSXoAzm/yIx2DXOUW/6eTHeNcetve2O4frey/I1vbO+tHuIdk8OjiAvnfl"
+AMYKjNwrZFNa = "lzj6j3l5lcva7D91I9IfoVETtuzQJ5WRN4bVHKDKRTpssxpKh5HwNoRXGZ6A1JJRKTNIXW9arpHybPJugq4YrLYyorTacZFk9Tws"
+tANWhVdpKuoI = "aO93tg8OcVGf68ser1uM9gLja8qYakoPY3r1cn33aLtDKk9qJP6fnMnaDcGrQ6Lbwh/DpPNtwd6gaZJFUN61p9zWOmyV9Q7slf32"
+jUXEudMaPAcy = "YXt9t/029pE8OmzvovPcztE+DSeGkcOvZ+v7T7e3qh/Li86LKK1EUVXznaOsovfeJZ2fdgEliSjEAtnQ6xXjruH0GDCyEd4tXWLY"
+yHJkxSPencoM = "D8I4eoeRQ2zhFqSIRWJ1xwza7YkRhcYJDjnab/90tE2b2z/a3bWWRaaTlbYXY6zcoOtERaiKQcrCLmL8uUs2nj/f3V7flxWXcsjP"
+xbokEfaYNYiq = "JoYh3NUc05iGu5piBqzQDLOin+cEd2Y96oN6V2jMwN0ZHnNwxRCZF/5MMfnMmeKU3BUuM3B3hs0cXDF85oU/z4leH4yBNzkKMSfB"
+GYJFJdnIcPlf = "bWfZQVjdGYV12ylGKPGMZU7wFOjFhR9wESJjht2x440sHOBtZh4DYNDNHybx7qkN44bCOzguOaA7Ztuz1yUX4f3RyD11441hsPqM"
+XprsUiHICYbs = "1esuZXxbzvi2kvFt1YYFGBGQfE05asv7KaA6zZOR/DTwe8gXbmdxGRnHo/6JqbS6E7/AjDOW2Z0gugyS6JaxbT6TDWG4h0bTtCnG"
+faSgSBKPhSwU = "T1TZcZXWys7zg+32032K0RU591VysL2zDf3f3E5wkXGhDEhipTRAOqski+SecW7/HUrnOgGDbTEbTzLE9dKLg/Wne+uMTe+inCnk"
+jYcxOIxpgqqI = "prBaElIPwkDJ8hh+Hi+dUHUD/ERBlIMbuhEcTaNRpcq0J9CRktaTElUbYAUGraXqsLQOre8eAg1hlEfSGsxps/l892hv30KhoZ98"
+lovhjlYuDhNw = "Fl4yx6DbkjjuX3RbAqepHrI3G7OdZ9C3gctcf+wKC0y6heIsbFSkFYntlSQgGUQii7YYXGEmJ2MSaKo372YPhE0Z1Z9nTEZ0Nhv3"
+lAwDTYLFVzVu = "JnD+dmeB7QweiCxcYsHEfDT1cjSHFlrE8wqiDQWox2wS5ZUEejSd9UZeeJZPNAVl7F3dMR8xmw5uXPczIHVZHZL4p/fIkH2UYll9"
+uxPbYaOvWTzz = "kviq98rg75ViOUQYOV+MnThlqsNbUiGqlZoKaHfNbWUd+tllLjDCDrXoBXdZ5EfOqHBpnr0I9Y9TN+hjSMepC8uzvpux5UTKo+SW"
+FczuDzkTtvoa = "a1oYCj6A+fcGrViMDvR8/x36cNo0yMYWE+ti7DHBZSsFMsCIhdOAiHNMftQBsBPJqifNw/T1iTO6irz+Hch5EtJtMRxpXtHjj/GM"
+keUZhfajYoQe = "XLzMJf44ixJrCmE7wxRqCsspP4GTRY0nze0OXzUcbd4qtScwPoylosZuJlJTspJvxil1tne3N2EKnx/tH1buVcnOwfM9VSjnzCGz"
+AOhiXxXTmHfF = "AkoW0J+4lepx8wTtY4r1j9UTnBu3zMnnSol+X1peKVXT2EJtCkqqSUFTFAhJv2ZIJExcr5pGg2pJn1vek1LN6HGNsA+/EfHyaBco"
+VlzCPMpsbroq = "mdNfyGpAE7xpoxc/7Ob3Z8jlypmbhTRX47P1+vKDh0Kpzs2MhrVT1LEbOjVrt70rNQrRHWSbtmXXnFPHQxd8yu0ne5ZspIpIwppg"
+NdDHYYwpUBoy = "vTnFKFPkZD0oFLhD71JY2KlwguvKX3iDLpMj7HP2lAMis4n3uxlswS1mmGBA78gWYSDo0L5jPsR9v5by1Ixa2mz7Jokwut8CG8H1"
+jgLAbzMwphoJ = "BwbjG7LUaq4OhO+CnD9BxSvpM+OIuWF2ZJghhlpHR+0tY/WGpZcfMG1uA/9arVA0Om4tLZ80ZlM4oitV0X7oTgZdEKYrUs3Alwve"
+uxLgKbbtuuKs = "pSBRB6qQ54cvoBsO6ex1eC924Jhexsf1F23RG2fqdd+5mMmo9O2y0wnGm9GV/2zj5/DF9nfT5v7hoL0ye/roYO/969WX/VdHv7vc"
+gfxroogogYHx = "efNg/d1wtNt7/uPbzbftl3ve6u446i05zZ/WDw4fjI7eP30xu9gZbG2zBlCWAODCNefi4qIxxH6E45D65Qzc8/u92ejdy2VWXmRf"
+geNtgbtoDKaf = "VSNUS84sOgMKwRzBSy3R65jMlDaZIFQ/vJq6UKBkOoaWlEQtU+cKQy70JgKMDcWav1OoV2kMTCJwSvB+WKKZXc0oN5xlL2yRD7Aa"
+wztmoSyuHGNf = "12rNkTM5nbGqJXdyirKL+nk4wg3dUo+h0gTkLzwDWrFGSem15tMCzOsUmkfHE5GLGWOVogpMd03M4Rr/t0bT5q7xYVdVIHiArUlo"
+DdahmPkfXbwE = "NNexkj8XjiFWhpqrSwxzS1Xd/4Qldh6WcCboLCDGYt4q8kEO45piosC/Rqlq82BBNyslZ13o2tuRWOxi7DTMPOvitR1o7BbD3EjI"
+jFEJSusphVtC = "Nv2HxnWGRGlCgKcR2XTT4ZaBQUELrgo86X4CrPK5MwLqycZrbFQLjcfCSC5YQcLWnbC8yGJjTp0IxCMkpUH5Xxw/rD86+eeDD4+u"
+PicTSAbsquOl = "/1lZJSIIthK4jTFNz8Gr1GL0qVaNHtIDu0L/zuscU8Vndcqpv1+vv23WHzW6X39TP/nmN8obePznDf588mG5VqzjjJ/4KF4Ane1O"
+ceciFkJSEUsz = "B63+e+v7608pn0sqPGXOFnnVPnwmM+l8RLs/s+93uSuI3fjPP3Kt9rkDjBHa+tlZKxPpuCxlLc2BJVYHtmuZhXaVhV7Q9DuJ8T3h"
+NJIFRQYqGFot = "kcLzcK6RMg89KUugVGaOgLLeBK6sDKD34UTWoXqDG8P0BlaI6DVxY5jcQ+7DtYSJqvAZZt6J8Dhxb9RdEwa0ENMlbIQq41kOqhuA"
+CqbfrEQLXFbd = "j2ubE0IFcyqVAc7cCLQKAH0mYz9I2YjwV6Q8z00a0QCYQ2Bcl1DY3AS8DkFfXRaa5g66gX9xI+AaAB224u16i36z+mavGRWAGfNH"
+gYQMJCiMmWfE = "PKXajfqeAAPtNLmnM5o+ukYiNYViSdOIoFcgc7DLKQgUVEhS/m6gGcIyMa+lsiQKDpJ6Hso+JnFuuuNkxrcTncfgn5AUVKqGoq9x"
+daDYprGTqtTk = "4QQT4AlAiOcjZq68g4ZIr8FMalRiy2NxkkwE0y7LjiszfUS/UCUbkeOSLpFKRsniW1d4zcaDjdcV817KRcWlYeWohiO1sZTDo9hh"
+rNPoEKxZAZHJ = "UIS8FyHX89HdgmQ0d17TS6bStcIkqii5KUg7ilOAu+e/8NaM5wftp+399V3F3fJge2+9vU+k0+XH4b3CM/+iyzGzy3BVQXmeIorw"
+VjHbSQnSOCJs = "AiIjOWW4eoFDJYGsxK22jAEyfjfOV6FHc2LkSR04vtNJi6A+3g2+t0fGLidCYtUEI5g/0wnqp5hpAxO3LK08GLinNbL48OG3ruuQ"
+dlOSzagnzvvz = "5tfw+9uHqz1nmYZ1GikojDwdyZQi6XlJYBpgv9R7fhT5Y7Ob1wuFApmV4NkVe+TvBQ9J7fmjQWb7S7nts2SjGSHAjeRUZw6SJc4S"
+taJWyLPLDYHf = "2fgbj6zNg+Rcp7nd3EG9F00SSaXjpVxc/s75dvVB0fmXCIIjt2GJvrTLD8ylZQVssbw5kepMxdYSQcFGFDJsGBmnPBrBvKyEmeHA"
+AVcatUYaoYmI = "uYFXUgms7r2htvkwxJsaOtdKiX2nhJCllWVBaI///Kc//JF80PgFkcP25PqH+1CxACiGZaXHGhyR6DYBRnksNgeAD0s1/HuZ/r3C"
+JwwubhMmfhuq = "Ygu4+0flGL7Bh6UT5b4qLKvxT1CeZTColP78pz/+KxoR0WEYWqJe+8rNHSym8ZDmZsFje600DTxYhCtTC5TBEbBzVSa4KJv1AjeY"
+ctoEgpVedcUc = "TQRTQim1UcNCqhmrRRmJOHMGa9JKqRcX0ZnHx/Rnu8zxCfWE1nnVZ3RZKSOmcyl9Ov/2//zlX/1Pf/7T3/0/3GuTNvZRZpWZUug8"
+dGrWTfqPCdDj = "pM5ooufLuT3/t38QPo2F+86SI8/Xe2EdLdh/bS3r9XpsJlPG8Mt/+T1mwdsAkorax1dsR2YMoDq/NiQVZZXlsKArsxEypM3BUhVv"
+lKMHumnTGpiz = "zBWEwqiP4/Y0vk3wjTrz0i2X4jG9Q4fmvqiUjvgXRTZRjIdG4Rf8S0miqHgR1w5nvbHHw5uwG132oitWZG7sT8YI4hJToC0zN6Qc"
+FeeJXLXbbDzb = "J8oo0sS2YEnJlWuPSh5uVttUspjdkCoV+tx2hS4AKSbUhAGYvMKr5dRFfEIDlWKPzDWyZNhXpZ1VNpLsb/INtVhb7GXWGdQMZ5mZ"
+czfWMKEJpCrr = "2vjK0FVJM4Sy6ThePqm2rAPJFBsZ5SvPUZFKkrTFpZM5qgnhsiymtdwSUK6LgbHIn5qRI7OyJo6aerfc2uZBMQBkozmuy8UT7i0S"
+jfAbjMSKFsXk = "VfVA+5OWmG+uLTbHNiu61eh2O3pB/VTU3dTZPlTdndeSvkiWDZeyvfK2mH2b2b0X5tpjqQuEqz5jEc+M1hL+OJyNviqlYop6vGrB"
+BAlatZPZmLxn = "Fwmbm1KJWtsqpfaEGpLi+YJFtJwM6eBiUFxrNvRG1OcZhQWW7Uw991KP+Fuf66lsqfV81xgW5YQXzBLDL3pK61Y99XRKPfR1lqtq"
+KtKMUuNoVtgj = "OfG19hNnfhyBkDjHeYqTfdqbezBrSmKMtdI2CnAg9tcH3ilenal2fS424d5d8Alp3IC4siAdwoEo4YRk370QEzofR4Ea9Nh4q61c"
+RvqbFBpNlfUs = "9TaIHG8I3kiqwTizGbH1rFbjIlvvM2CFVK9Iq0eZHh9DuSPptMkotYrrc/BGsloh5oi3eXv+iK84h5dHXfe0pcWK8W0dpMflCGlv"
+daLwaLNxYrFK = "oLSvzz0QGyUbQdebP145yesBdXLRsmB4ISbopOtxi5aXc1ve92MygxlvRVty89OrrTIbS+c3425U80+4vh/gpeSyO/Y2M87KDOaV"
+TOkpvDoOMorc = "d2Ru9lUMoHkTDjaVnSnH+7HcUtpIZ4DKnBEWZZeyyrI9Vzb9mYrlP/48uWk5YXhwDuEknYufxizoriQulH/CqC+Zx1jcYpffISV7"
+kOKLvRizIPUh = "evfnUEGQFBHnY/KP1E2MbdK5FUCqk3YBzaCtmoUb064Yui1Tpl4clcmbqa3+U2PR+niXGfBV6WA2WQlyJxyf4NcymL4++jeN0kFs"
+QRohXtMErCcV = "0u93xuHRB3MW/smxfUqoKvlqLTGezOHwMnDc+7S71Dfvnx5j+U+DafyV+cI05kVXTq6lxRjciZ5GLhEqacyGn9gWLksxY8gR8d76"
+UKWitzvdGSnm = "tHoa9UhVDw71ZCXAZCN5g4W8YIqDRunGjIjFgpJ9VDO6eseWmo/hMLK1194nW+udZxvP1w+2Pn5iLsWOI7WlqbYcWSJOzjV2Js4p"
+ZtGWdrzhePbL = "9chNXHPp5fjTxS5hseYr4RCWZghHXoUbu2rkQ7okEOecozx8jZSpralcvf6qpAW47TKHL3bQFrQ6LyWtzisZVuf/zBsp5RoRbR6E"
+UzaPbobwAwMv = "LPUeP9uYexoMh7p2WY7SdKc+Cw98yvwXle06urKxwilq1FSdp+EZpvU9TZCxWUJvPh2qB+M6SCFXQITCGf9x4bCQDVb7icYYZhrG"
+zfRbBVdgbsxS = "U+ziyUV/44Y1sei/4iJZLOHJvgrW8iYrmczDmtITvt/5nttnFyziSRE5PRY8Cj+WaJjeMv17hf69Sv9+QP9+yLl0qFA5juOI/vyn"
+xGwEShkIqcue = "P/wN2RIECraY+uk//veoQedJu/AqY+P7v/3f+U0Fe5KcGSWSngKpRf/wP8QxzWr005//9Pf/nlu6O24UAU6GjFCemCZvnAMFh5FE"
+fgTSVzanIbfq = "S9LbxXsSMIlExVJr2ajF8g5QQtiNKbWt5opRk6kks+usGnXEqZld64FRS0ZtqwdQstpDsxo9s0I+kZq8bJurWFqGEkS8N080DAoc"
+pSBiQMgLPqGh = "u1GAK5ciIS/GSEaeczClRLJV3CfABgGcO8tVWSiqmofpMzZSSyCCDL/ImY1h5fL2vtTY0eKtGnKHJmVQuUNXcMdd4bHzsv4Ne9M5"
+pgTfbXpcVYrF = "2qvEeVW0qTDG7F6kNYI2veac49bTasjBxykk4pHKd4Un3mS6OXYJjoyjqZVToX+v6kfXarZPF6I5hVgpHeJc8fxHyKoo6JLtXaXA"
+uBXneEotJYZd = "WGfrLzLFlWrmUlsgrWT2BlZO6Qw8WSCsWiFsyuWQYzJXQ5vhAxddk2XUQQoV4KXWealStfBGD2jNGA+mAzgmnUEXKnXpDZqajzVH"
+EIkYYdwLpyZr = "POqtWVNS+dTUTEKytEoE5MvnB1vbB2TjjZoIaGu7sxmX2G3vtQ/Jg9glEzuuM2BM/lZ63nDHUzVIBaZIXhdU0UpmGK0XkvwjwKG5"
+LXuSaOULVIkR = "w9A2wkcym2IMLyzglSttISn5EDKPPf0Q4El5qL1AEWOkkjv9BFAYCZUNUIWVWY8xMuzHsvixIn6s2rkYLR2xxleoOXS1D3ruV72O"
+HJtSaFQpmZyc = "lq00hdngXVWUtnRE6iSitlfJ0wRt8I7iL5mzSXmgDndYqmRvbTm7NTWZE4KhY8cfIq9T/Fu0tJnS0krOuLRsT7TL7A0djEz9pD7J"
+HDLZnrJSrhOc = "sR1tpLS5mjM6LSkU7Tx7Q0clM0SpT3KUz0oczy2AE6kt+BWDyWwX/IHaUeJHJU9GvFP2rJukxS7sY1dAMpd8AOcTF5Oxw0E6cJG6"
+OcAxVmVxLafp = "2jYQldxhC31QO3etseYyBR/NWs/CiWgHClPYwdBKVoeqb+IHNhXX8EvMA/yOWZdEyo2YjNK1YRTSOJTpNFVQLyIyHQorcnUhQSMl"
+ezahgxrMJLVa = "kgyGNVXyhHpdKmGdrhl3g8vFa2jFGnj92yZ9A2M0Zra9VarJXjCim0yHegO4+wwlsyCX5GyWLMBpLGXPv+QNcJYhAVK51Fr+PINj"
+vGdcBpwqOLTs = "oUtvXmMetaobsPWcWWDqT5lbeECvdGU3z1OrQpbDtWb3GpYA3bsqXjCjFyAExhB2UUamZhiLU1ZiE2BH0HFHn1pFpseMTla3Zvty"
+OHzijNjJZJhb = "mKYozOOYbkv685/+7r+RjkPnPM0eJa1KCCppWRLdQzOSeGgA/fCmFYseAUtQu34yO4+amEdQqRubULSkITdR1g+1rFAaEajY6Iae"
+VytmrZHvXIYi = "DKqapbFnc1BLzNbdauwV1dGw9Ms//N4kt+UPov3rMmHJPvPUSiy1KHZ45LrTytL8jpYsFYkg3G1gs04xDJPmHsmxBcEg/vHfZA9i"
+kJWmRYPHpBNF = "hMT+iqchsw0gJxVKRrssOwo75oxOtFD3HFTc6vXN/EBpDCRxCLN2KnEKKZxtUi2j87TMiWk+bjah+UpoMzgbPtcZzFPdpRzFFgnn"
+DJVnvXKnQYcz = "vHEPmOOGwkECTW3EXB7lnBsqFwbfzxoqi2QVg85jKWd755D8+Ly9b6QdDcnzfWg+Tla7FvfDG1iqa8lG+6y2zIK7JnttrWvkF4VH"
+CAmucCUnfdEE = "3nqcDndNG6m9B3pi0f4Z70ScNndNnRwFhuRioLQuDqZKf+ygYqhltY8YlpGVOYLxfvlf/2d5DFJELM0bHYbnsQg2l2e9wZcxVFBF"
+CuGrWtbrbkGU = "WYmephir4m1cKHBDN2IsR2UQ+FODN2EzFAflsalIwjwud2iZ8klCab54AwueZCA5Serj5exr5FibMNFkTSTn8Ab4myoU8IeSRRkf"
+wUiKmRXYDPfL = "LcmVy/p5Vla2KK0htyg+qRuUflX2pwkoTtHMeif0GfikKi8pHImssT325Mazt6DbRqRXk0lf05g7m9kNhR9Vv8eZ/S6+B5KfOAxi"
+PydGWtiAVQMT = "rFDXz+JauFgcE4qIEbHmgCJGEd6cl6yJ/J98/HY+pyTQrJQtUpRe8nyBOWKEhMsilluEVzykjyllFfTFGlvKY0oNC+JjTZ5jjxSA"
+tAttsEWZgGVo = "oCo/WrGKJKW5WH3RkhqOFLiq5qGlqChSIKtKg5aiXchaLdyEtvXCy6n19cI3RVcs3tI22Mz3L4aOKt40SCo5KIKxL2ThNIgxQcnD"
+nZABiKgUAszg = "U3Z34SBdNLWIqKkuqItz0KZceTdP7rXQEjmEY5Wk6v6z1YXUISiCJDNwpAiXPIhOoEyoeu0t3sJpJT5xXwS+uLByzIRUyhUoJRqN"
+UYqKMbMsfaLX = "BhUHkG3HvLXwrHIh+lB0Wi6jAJ3JFTJbk1M3BLZ64KLTY3TGrqkjjLJTb2aRo0ZlNZQ5A5EWZNwAOHSorx0UDfgdYGIbm8SMTsb+"
+TuVToBCupoTj = "Rcw12MUVmWl9jZWWx/zJbaMQF+c6dGx2M4XPV/9wbzh+VqIvXKrIzFKorGGS5dQy6k0QWDK1oO3qiMwKhg01qxOKPQYKWosxE6Gy"
+zsrujNOCkbrc = "XslilAGv0HVkLNpJja2qypCJdzZmTXzTGCjxUuGxTpQU7TdY/aL4kKqrUN1bGJmAvkbiwglTglcUC9kbe5Ga5GBZGSUKScWfRSHA"
+ZsiEMbmEktTQ = "p9sW9/ydEKIErc7ulUxhJblDjQgc60+KlMBkmhOVbo3wImkdXpU8Jkut1NxtXNnAKjHVvT8R+ZqROmHz9xE37jPNfUNXAVKnXb1F"
+vYshiIlKNXWy = "U2xKDpJLskY1b+T3j5snqUQKlm904VwBWUezOF2zEeBDyCwAZBj4Y/rSD7xTb+KMqMlgB/XpPN+zgGu5i4JHBsV8tyKXxd3BOU+M"
+HVbHWSUeQyUJ = "5ER0HHB5emVgcraj4IpeOMVvzCIZ/8O/Q6elbTSpdHh/gDS8c6/WhiVcsK7s5YdEf69LKSFf8mBDCPQaZua+H8+sLsbI6bVCE0Ck"
+JtSbpwLxBWPv = "5DmfWGlKgDrJsrao3BelNd5Kp+BDtUKMiYnbo9KPVkQcvLDqJAOh8XMxd2a6dkJjETfQiOBfr2+SyRTfPWs2m/8OEQb5aJBWgBcc"
+BnNpsnxlHDhI = "hRJfKN2/Cb5Ykuy5F5beW/u80iK5nf6Pf4ud3qJkR8XzHA/Z26dUKG1t724DD5L0m1LPZzyME7NVq96BYp4feozgFtO/F3HEN9Xv"
+pcvggCQYXQOp = "2efS3ZyC/Oy/uR+HqmGU5rhUr1+p8bM5/DLfQLFWVKujNUTpabKlcrwryzkZZbGFuLSlCboDz/nq0n3IPrD8uGL7ZDRTuKDhrslb"
+rYYiTOmssGSn = "U1YfsCtzCy/YLiOfc+kTcYrp5gkRLGQzUJA6OfB7MzjpKUeC7AXZ2kg3W1j8cC1umNyxcC7Thag1h/EipMaLsWG9GCvmC902ITsW"
+vHKpCeUwjuAQ = "5lsnxqjbD3XzxHgO+wSvrxooxkkLBSN9YUNz3kxaDcI5rQZixT+m3UDkvbiJ5SAOX0uzHcilonwz9IKJ/vF1R3pUm82moHzKsACY"
+adXCZZgrhIvB = "WnypuFcD1ms8GL0mAs27E5+q3TN08mkcThmTeMZcGHfPxRdx9iCFDePsk+Ksm6XhVsecod/OU1R/DCV1SWhGmQ9L8rucWSzEwhBt"
+ayyizcAjzvUt = "xYrqewvqeku4HLQA/mv5ri1TkRlhHMY6ZSxsetBSvM42cMD7u2jyF+B2MSOWmq0nRe+Zqa4spqpErlWGmCs4VlpI6igle6ZgpoGr"
+wgjaGKlzdpXh = "x+ZztoStybuijk3inUvyMyEaArJsR4rIyrY/sV7AiPrENW2naZRGra9JtfEHKdd+Qhk1br241MFgSVqtTECK2FSQ6NsDlzI8WeYQ"
+FtkTFSmcXqQl = "x9IkGzY7jO/Pm5/ictAnTUdnjWZWOYem4CdUVNeFKSUrUvWTRCYLhnEeicvAgnQJR87EEPNay6h0dMBzqLMhL5AUe+7T3YNSRJgv"
+hgizdNegoHBZ = "9ohMOhmCj5hXRS6R8o2oXlTCscDSZYX5hAUorwYd60KaLik4mjyYKgUsGs4jGclj1dbUXSTsC0bmD8XGfK+kClSq4UDUceDkr2hG"
+omouWXQdhcIu = "Zi3JiMXkoNe0GZmruvsIu8k6pZtok1V7aVgt8EzirIFqGa2h29nMNYyZiuYARSg1SgIFM/R+wfkPF+YlPYxdSol4kRktuFRTIwp3"
+PXqcWXaFhgRy = "JWQmVSyyhJppMgjtGXJabnaLQhCqkZhLY+1pUlSR5ridPmeE0q2rRlTDPh+j7h1WaJDMvJ8zSukIViOqfwAfqe5NVqTVOwiV5uvp"
+GFshQVgyHmkV = "T8UVHBxBjssSC8oncLyjWahSjcUsWohxY5Qgk+OTND6LBtOsMVKHL3EDWEQMWu6eheXmfVvTu5osxxLTdIezSX9t5Ix7A4ewQAo6"
+EIIChqhuhmPT = "Htu4kB+7PDnW5DbJjNnHik7Wl4xyW+aJbuWQTQi6pF5Wi5r0Bc4pC8ER+bgcY6ttKXixQmvBo5TyF4MVzFwNvcOFl0OMyj48uSKq"
+erzZnEnPrlFX = "A1tySfQxx2tin7LCq5IXq8+IUbxEnLQdlwX9sqwPL1NkeWjR/MWhomvW0mjdLLowYiyWMYlFUfQZiSXRhylXxDZDN98kgkQqK8Dp"
+ehPVfBRsbObZ = "7nE5Jq62ReDFCq0Cj9fLXwdWMHMl9A4XXgsxKvvw5HqoXp3JFdHHHC+Jfcrm3yS3zc9h81jCSJhiLsgcDmMcacr3mEGj17oZB5D2"
+DDuPjcccfTkE = "ju00vRinjXo5NkO5Hj+Wm5pvK+ylxs/M4eAj/qiBNNwKVMmsoA6vJsKeFd65pnBsKreosFUKs5PblIU7rynrWdNY6UxoiRvhrf+r"
+olYTUhYJSwbl = "pmcIo44/CzefFx3FaiYa1hIIlz07JibW7miuqtUs76wcgd9uQy0ewZQbQZCuEMoJb7phiJMeFcSHkxvLNGc8kxHTpMUz0YGnhjFl"
+bNRlqCTYMhtD = "J87LTAuJV3TjTZHCwYQSZBbnNGBhvkV5n3SaPUfOovxFtizuglXRtHAbi3msAEnYkHUNiKsbqgWh1VyZMnxL0vQlVNuUoywxejav"
+dhbaAUDtNAxM = "tkToFRTnGeHLOL8iJQmMacMMR6Jy9YsG44sG4xNrMMRdp6ppXkV6Vd7HJLWDBnDHE6eSUqbKWGB5Y+rNFCULuaycrHUpYQngDRbi"
+EzLOrXiaqdhF = "lhgYFWeSw5XKCNk5OoLmguWgqrzEfUzPnhq9iY7+rOZ0r/lrq3aYHTPu0ydR/lAX31wA6PXbzBCb7LiqxplqiKjqQlKxVSmUiq7z"
+PpicHTBPJxuh = "6pMKYKysdhmDS8NZWVZH2njcsbrmTtFW62PzM1CDcdSN+/XJNGUUf4sAyUPhwuoxvsqKk5OKtopCKQ2z4yJpeD2PCi4fpUWlSwEp"
+ersSbOhPkjXg = "BZ1FOQ2Z5TCFnusuEVntWfNXVRcyBJb9+QT6RETc3Oo3ortaaL6GeKp6LRU7lUKp+DmvirIAkspqlzG4NESVZXVUjccdawDvFF21"
+tiHWhpzbHXyA = "PjY/A80qR9u4X59M+UrRtwiQuenuTa3YaeJbSjyIKsYVNXvbxE0lruTkpmbxnu+PtE2oh6dUP5FeWo2kvYVm+s7DJzIUvzeL7jRj"
+HRcIkTJpaKxf = "MolymD9RlL3ZAZsaf/tEVQbz55QI0Ky4TgUPn9QsIaE8ZhFdoi2XbaYCLhANWkAxfBNV8EKu0leoiAuqgQtMnj5xNZLcrqkRy3cY"
+YpxDxnKglrJL = "bsOXqpCy2Bo8YWjY5tAQ340etVT9GOrSeYdqGeZdqUjNZFcyqEXvtZ7xihcyiVK2sjSOgzHjBEylKcMdEVSXZSbOPwByHGwxbjfw"
+TVowFqlochDu = "gMAOS/fuUYVq69498sGiS722J/+PazPlR6K6pnXIB8IIQRKKJvzlgqHZPRJA1HD066x5zXC71ZqhEkeiGZXbz+0p5wCTQDSuKxeM"
+JdredTigxuQe = "5CcooPIbNyzjzkznJxg3Vt73y/ldZCE4yS4qCT0yp1PrSFKfXs2ZZYXBS/RBS0UwbydsXGFeZzjXmZwMW26EzA4ZCCs4TAvWxsxl"
+bPmYFgqBoSfw = "3gjVCzaQNsZEpCARTiFSBhHW3Wp1t92kY63wfy/oWqvfK5ziXKu2qQ6uAEXM442tGVBLO3B007Sn90qJcPyRe+raE6eCkEK/mglT"
+txDaFUEXUQnJ = "8Q8MAxP5d5eStdbZJ8QHV+b0N+st59RbNjvqRVeWDsbZ5MWfqYcxOQPLaF4Ak7AJX4wKxe9dLK5iE6NcyRnlSsrsrObUW01k/ECx"
+akRfwkwEWzze = "J1Gng6+NogO/J6PRXFEQo5eIPyQbXhCdZe3SolbCecMsPr218FewGFqI6Bev3k/o1fvFSfTXdRK1RiB9fD/FgiHPIp5R5OjWb4FN"
+gAphtqMKVaCR = "v5q1oBvjrxKKpoWUqZnES53DI3YHhbx0phQXLn1aX0cZD5bv7agEwhGeOEDhYGoxWxL/XI5/rsQ/Vwu4OwJzUWNHa02yFTU8QDVv"
+eGBBikSLCyPN = "yviAiC+D1S9xUq5KuAOvyDv2k/xUM5o5m6nel1wnp8wsjX9Ov9f9zr0mRSTkHfhNFgml/RSek/plwZ/Ug1JcZ5zlQ5kbrPrRnSw/"
+AZiKuEFaUEXV = "tm9lHiKowurNsw7FR+zC4trn8edL/psv+W++5L/5kv/mS/6bL/lvvuS/+ZL/5kv+my/5b77kv/n/Sf6bxU8mXHyx632x632x632x"
+rglaneAcCUJM = "6/1adr1FstN+3QKknJy7QUQin7y4is78CSow8Mk596mLd/RwFUCHMze8TZJp/TDKz2H9xer4xer4F251vNNE7gsWN0kuWJuO8dv0"
+iyOaIuOMxOua = "NdFk6ZzMcTc3ey6SwzMv5HcOc6UZuXBCqdGf4k2MQHHqeN340LsE3tJFIwaSdqaVXyJnbuD+pRhT79ba+blmhvno1tJcsFbjX6aB"
+YSVSrgnzGufC = "r0BP57Cn3r0R9dNbUBfudIKLJacpYF0tNs+3NrB+sbyqltfAPfWQ2Uze5PWXlVJmDrOn7NdtUujeqU7BouOw5KCxaxVi1XRqHhpe"
+DfDGRFwUORyN = "KDMTTa4OItHHT62EELyOOuRjZoQ6ubGCwgZUuMDHQMyIyPmUGeltSBhZDeRrPfIbWLY1kKEeyZgWbqozgRVQoaQDFZVtgIurWuwI"
+sMdIBfrjUQQS = "ElsnTz6GLiZ/7leyFjdfaZPfwKqtgUztTjpMWs0Gz5AOngHfDFO/9XzDVBR1KWjFNqKEtvi9ctUk/7JKktCncrlQzQu9CXQWzoiK"
+zMGwamuAAGWq = "hEB1PNX0s1Lt3YDbFNF/YYo/VDDlr9/Uvx7Xvx6Uq1TllXJkF1CLiZmWwC1nMD34WzdtQQdoP9C/6O8+W/0dsGvTK66u03V5KJme"
+YRdTCujUKaTN = "sW1GbdggcvtTNxhd3erSuKyO5ek1bGm2dGKblmgrtdQdpdr6S8u19SXZ1t0m21J8znRUTElIlFboTlIS/eXkJPqSlGj+pET5JPe2"
+DTuglFVdUpVm = "l4LejUqZZl3R94HunnfHiVc+tcaZp3P5yDrn1uek6bU5y2RW4AL0k5opUj+pafKv8ricnRXGFK6Umqu8JSaVPqlJEeZJTZUuc4Az"
+ZdVExuSBuLTO = "VjeRpsbIYaMKlU9qiU3yJLMJm0fRbXS8n2tkTCbg9Hgkk9dL8R389XS+86SeSU0HkFCsfW7BNpQuOsDOnKHvPuvoX4wKeP4lKaD/"
+rvCeJTNMKlRe = "vXk0zM3Uv8mAFZDwTnFXm+pfYHU82GUzZySVwKJoUUUwu3jeaCehER5ylfALXoAi0QebxvW6ZExkntSfjIYhWjfEwxzBLrMpRruc"
+RhOcCBRagVbo = "N3jmrfOGmuQqMwgmaTVE1GuouXQwYxlUUZLN6JEzsxBei05DV+RXGvnCU66dY8gLdFPJLXYuHwpG3JzfMuLmPC/iRmlezxmOc8J7"
+ppxmYUvTjDpA = "oCZz06bK3gs9CzhMJO+ImgNOnd5E/A/MWcoBKyOAoAgNG7hwoj5mgEsGAcGJ5wQgRa5V0s8k4fOrRtAoqGg62y+SzmyMDCI9U8OF"
+URxikhxMdcES = "NAd8+veqzgOvFriJrTF2o8Dr85CJkLxig4MBofChdKyaG1EIh+aUORivmZWP1d+Y/kiWZVLM0kk1rV+boiSdY/472ZcVQ59+fira"
+CZCUwnDDuYJH = "YHn+tA7EX7pTN+jD0jinKHqNXcc8OpWerJ+fkk1ZE7ozLH3Q22k1lobXX1tiL1f13kV+5IwYHnVRFWz2j2NYdzALHJa+CNB/nN4z"
+MszEcaQloiTf = "umjk0KP2JeiVCf/+/YfN63HJelGCpLw8k5rq5G0a7lgKI1hgUUm9H5OHOkkKpY/pWOs7z2SG4VtqNjGM31KTbeGzdal0VlFHKKjE"
+eyrUMaGIibhQ = "Rs7Si4mgLj6nZVnz5AQ2yvTKlr2Bh3cNYS+7OittjnLOmC46bIx0Uq7NsAZYKbNCI6zYszV2SpkwGkPFnq1FbXNpi38Sy8vjn+zJ"
+sMrQuBcfGbEg = "KSUO2Pn2MfD+TLBvphRwLnmBpWZKEaZQWSt9Dfvq66+TsqYtskvFhSKhYjF9sUFTMMkGjFkC46gz9yIj3IxjYOGAM0GK7z7kzIgl"
+DRRMpGZcTnjg = "Sw/uYDkWpzFzNpsw/UdEVSeWyA5b5jNJYnCCVO46Pe+ZlXEsxlbHgRMTZ3QVeX2gP0541vOdYJCInRBFmFsetI+qsX6YHny9Lmts"
+oDAwbkOqUQxa = "CaA3ZEyfn7sBCjZxqwtzHuwLKSd7jrbHVOJw5nbz+dH+YeVelXGbnJ+UFic18a0aLsGOGl56TcAeuoC6/gTWQ42wU04smSSR6QJR"
+HojPumfdllDk = "C6hCsoxvuTXfAKTSyWI0I+v7WwkdjDoqVlSNqyw6sHXWSCd2zjRgWYa2kju0ztFeJU6ZqS2RZS2ACqX0mABaNG3dPsSqhBGwmgrI"
+LRzQphTKePjM = "0t3Vgiux1e4ctvepTVWwv1WbKMMWSGOtH1NzeaU88S/wAK9/C89XYbmqslau+250FS9q0QV6ResRvk5H0BMcsQZN26Z7PpBi0S82"
+ANLrewEciion = "5Wl+TbQop9oCrxmssa8MrqCwqYmZYulzxcyEWKkLkUJM/EsTBXlG7YZJqZJSnDqbsQhH+9Leax+SpWZqYgcuramLmUx4oHCOasFa"
+SDdaVnmyewho = "6mFc7AzGTjNfCOcceHAkWkZEpdA2upNTnhYkDU9FyW1ZkkOKqxZP/8HRrqHoZ9n2V7QQVUyww1BPzofJJK2/fIpVrDwqra+LWon6"
+TaFnpyWHCHRe = "e+uvK4aETqvRF3Rfe9HVHLlITHWLyEWi6Ag0nUF2PhF64oSNxJkjaz09eH70guUZscCMsVebxJvhb7zKmdirm21lnTklnjhHBMO5"
+PvMHlyMGKbsX = "W2ae0MdfhCXXtBo23lzHq3yQuhqAfI0ityKnpPP/AgkLCwDrosKvKAGECaqSQ4UYba5feNQerbG2NlKkFufJ1qFG4IEEgavB8xJx"
+rhJjIuACByfz = "gk9VYIVJU1LBygjTuYUu8dPVXDnKdzVUzgsqKNxRzuH6KQ42STjObdV1wmGeehlEQptyk07c3OiOsqET4JUSQVTR2wjdiKFxRVcK"
+OFhWxQuyjSeC = "VYUfAE8Xn6uHvFkbyqqKNjJ2Bb/NLUbwlA3x8ZIGqAkCUNcCQ0OnjjCZHmCMDmT8K/Em/dGMZq+bAit24QcDVJ5PTt0MkZdC6HAI"
+rlCVBOTakerf = "yVxj3A+It4RzVFgUzpBUDdFiIXY247YYOJ/ZrnbHMPOAjjI9V43E6X3YzmRThFWEuCGqs+wcEnoloY6gfACm6liIySUDhyO1CR6J"
+FnwKxgyJVKpF = "vRQX17CJ2zrX5bThIYJHCtZh2TRKKbdsiJeBG82CSdxg0UlZU/qkZ+XAvrwI/CGaeTuwXh7PXWbNJqEWbscDKFUXClCJNO2Floz/"
+gMpcqmbJhHpD = "iA+IpuIXo1PzLGqlt3HQtCgdPkq75X1mX0ESMihfl7I1Cxq09T4jl+qlC/F8HreWHlEnLSUtHLvI4WjyDuTWSTm1m3E6KQozXhcJ"
+sONICXaFBTJk = "U1kqfjmEe+4Geve1FanX6/rGfCF29ybd3XlryUuJWulROYxYdAXxSAbmcKdASV2S8R6cXMi2pCeU3jj1VIGDNx0SpjIpAoXyWME4"
+pISCnHUqcHAe = "q0+sBCkKUbWfCKAoGk9OYa7QeN53Ij/QMmspI2klPI+xXjfs+4GbvMlOfB4DWQIWjGbIO8m8egKNb2p7VfJ4jXxn9wFWWv5GZSvS"
+MRNrOOWgYHcB = "PTUSHWo406k7GQAliwj6bUTkOzxTAuB3UbmSfU2GM7mq9IG7mQEMIP1UudxHnw9tAJ+w70DCCe1MHz1QgMlHY0qxMYz8i89nDLQz"
+YvMdXEEKCdOW = "849h4J2i49PnMQbmZ1Sk59jT0le/WfxnX/+Lv7pXqXa/qa8dn3y4/uvvW7XGD4+flD6P8YRTt+85o3h3ZEfBxIk4GfSkF5PW1x+I"
+GanBQDxNrWYO = "/ZIkzmf88o//hrxynXfEQs/YyGwgV+2X8DjBBJhBAPrH/4S53vbcgTcbp0O2z1nsKffLP/yedKLAV9jS3Ot1jBm3NsAY9phEn/mz"
+lJuXeEHqBKmV = "EQa5nLstUiLfEMyd0PjZ91gcgAbP5mzM3cX0c8TmSPbnP/39v0+cqQmP32QDODC9jYTrGmUoR6PKsXnS1jTUriVOvZNqHnZYvO7k"
+yKKDWGyVgWST = "UBN30EmU0c7or9YS7ea1imeuKBuSgc90rKiwsbWWPNt+IA9zBya6N8Ysyz2XOGJXPlROKiCZk9NCqLtIXrqBN7ySoo/ozUKOw7Td"
+swCtmsccxSZw = "ks4lGslTnTnh2Zxyi/qnIqWApPNl1dZDika00TRpJtP1VQkFoUDo9aN0fuQqVZLIqlY5bp6kOK4vEu42nzrDgk3k/cd/4mY1TCmS"
+keWPFMkUMdTJ = "3zHdrZr7sqsrgu7s+qLBohRfJ7pWous1WcPez7u4CBOp7Atd6i/mlJyyNJuwhwKq/CQ9TPwQzCZ4KtjDCmjo68h1p+aViAV8l4u4"
+dNmmyVIDNdLC = "DOM+3zS2I/GowsOHt/2ouOxExUiBeDmCEy/FqvBI6nTpiXmCd6l0mhCdEBWY3GqVdPQmRNSMFHRRlQfcQt8980cDN1grUUz9jXvp"
+jboPGozawKOo = "oKoakSTtwEk7wv7wf2ijy0/Jyg8D1iUtTIW+qsiPtjivIoQyZQ+KSZtj78V9ydp4FmqZueHMzcaWrKj7v7JFlqoLBbeHPILpYAqe"
+aSIWFqfeouIn = "8C5ePUAc7j7P10vD3VzWLRXoxAqvwK7rXIWRO1b1SKlGg0RJHdKWEzk9J2l/KOQ3kjxy9XhrrgFkTh20cKZ7SPGGsxxWeKtMR13E"
+egIKTmJZzoxU = "K6V4s0UcfYo6+WS1qoTRU42wHtNOKUs5Qv15WTSKD2ZzyPlq6vXCzlJ2TaPhtkNVmorTDlvfaoa6UHegUdx+9LWqpjn8zOsTZXHC"
+mBYizjazdqQM = "UUBIzD+kk8e9uNlMVrU9suH0382m97cvp34QkefsGpyKcoBQiXk4i2YBbu0zjIxB6181bVPKphPXktxQD2xmFf/D3xDeW+mDB+M7"
+QxlWGuiWglaU = "c0fTtRL/EDLCEHv1scighHmIiYUA8n9U/PlcBgOjd3EygDRGV+hxTm/68f1Jo9HI0R6bPf77fy1IFWZBmcXdpT6oordnrjPCfBjJ"
+cxgOOajHrYVl = "Ozs06ZgVBoaGc1kgJgHxg6MkkWWXDW+I4/u9ZImAngFPTs+YFvkgk5FM/ItKFb16hjQlicxDQr5+1vp6r/V1p1y9Nsg0bGuMGZMG"
+nadEGHjspfXB = "oSzSbiPeZn0TPDW+0I76s0gYrhZUUUV8WyPrL150N5/v77Sf8gw1s8hHvTl8paXKNbL0XbOZyo+FvDPSepZgyqTiHm/E5n075O2L"
+SJBDmMARoRoc = "EdxTsy7zznUBb4D8ibB0OGdd456Q0jp0ts46S5wh0sIKr1QtGfFCsTP10gPzU+xGvdw0vrH3xrRhMIDhQUCRkrrCwfyA1I8SMnQO"
+oZuqaHHWfDro = "z9Y+ohhIxqcoK8Q9pf6/UxDy/AGmdPEm0rnBck9FAW7zlz/+L6hHinluE0fM2G1eMjpzJapUUGcBYgjQYWc6HaEOHh2FWF8vqOYH"
+kvKWUZipVJZV = "BhY65zASzFvMNBWnqO8weL8YrY6TKIX315iLfI88bKZt3yHbvwZeC6YQOvLBgHZN+I+UnV365V//3zhZ+34Ee5kFsbN5YquHYesR"
+KuvZbrAeFxCd = "uThzJ3R6lLnAT5ETROEnMlEDOHK3IYxAIA6Ptrb3afrQ7YOd9c3tO28jGSYpr+pSjOvGLUnKdV4sMpX6soy8XoCxWygMmQGUqDbB"
+NJvbKXCDvnyF = "c6Ar7M0cDSoKrifsu0x+FJutojHXrK9xDjqLHTtOjSXiazjHUq7aQzPJK3cEZ6Bbi4MyqQX2K51q7zIqZr3rynZBzDF8W0peerWS"
+GttFRNxQuFvX = "fpb+8T/zRgqJofZ7JIRmku1my1US4g/f7jhlOVLebkwY88S7VAEuTTmuDUDvu3prV17Q8c2nQ1X0rwMbeOXPYJT8x4XD0r+z2k80"
+hCWJTIpsdhNY = "c+vt7r4Vi/7GDWti0X/FRcqMIr9B8tDEShbKH2qjBotk3zn3ThlpB+47FHJTd+T0XHaXWuw3A+zgH7mL3S4jSyqXUfrlP/xXPFRY"
+rnvypsAmxUek = "gRdA2TCGjGjV/4bsXcWhf/rHv/3fhCcIo24nqpgMXbKRJMayySKAgU0p+nHGCX9V4hGZjBx+BuHTuMFFRGXTQVaqRvEle/EpHXKi"
+XLLAetWbQruA = "9LJZenylRM0bhVfMwkoYE05NRb8Ch3JS1JUVz24Qt1g+DHxw2AGCKTIidRZhwy2RirpI1ZxNzpk/Cq7MUpIr8L4CIV/b8EaiW3X9"
+NuOPQjyvoVoJ = "lmxBWIt3ed4aC6c7suknKkqncfJwmFyachj10EqedRpuUGULxGJk2X5N93XT90f1UziyWbKFWxVC5o1Sc/qsxbxMhteafqNjqsta"
+AqTTlhSeLurg = "R/I8OU5rCsUSMGXuF/4cJ++K22SpMbivd/H0DLFjr5akYeCG/cCbMmHgHNcvoqH56usC2Rj0fA8f3/P3jhIb6CE8T1jomxqWI14V"
+LsXCgbyUxvJx = "CZ3JvAI1mf3AutZVnpCO45pcZUswgsKL3ru3Q4NPP6BCS9apXoupR3oAbElAOvH2ZwnfVOEcS2HqNhLQJCdK47C1Abcvwko1+6JD"
+HalDPyswOCvB = "m4bxeLlG/zupFr1MUHMH5D7w1BcQunCsuyafmLdKZ1zEp4HlgeAxWC20PhXsSg5YGrMeA2WB/KnQVnMvUmRsB6XO8opAFnXNGhBb"
+DZdsGlYvfnbp = "mrZR8NJE7dCDtfqQbtYV4EstYjSXbrSVYfzqDGQUVyiNqKS8yqxqIVYChOVTJigjp4AF07L6oWcZsOBTLW+OkWrqs4xvUpJ0XRdb"
+GuchjkrDMYKN = "aBi56+LhXE6I6uWCt2JqHA7TQFK5RuWxkLu73S2JkkqJAHpKq0xWpVG646sGE7yV4HJtrBX7Fisy8rgkLiTkiJr6XvRCmsvUMknc"
+AFSPgAbyWJUw = "ishYYMH/kmHgj6kWS2PMcH2oIktyzylMR8xH2OQPrWsqZ84aUxOiJBUjH2itBAE0Ty2VuPMaBnknf010Ys2L2cm1mGdeSNv8LV1m"
+ByogMnaEaHIW = "RX7tcgrIBQuO4tt/IFsKFUnaG2S/bbCtrVtJUE4v/hEzUWMtnk0mLNATazvV5IoxDI4XvTsL0C+AQ0kQHeHucRmhBxjHk/YW3Z9v"
+xTvClKvbsetR = "/NnhrOfef4lKOeKOe+5gIOwQMAEl2L8RfKd+FZKToO2hLwb92ui5+idNu5VbJh4FS+MlSjTCKQgildL9UvW4vnQiHp+UtIj3pFop"
+TznQsMkxKygK = "C9b5GtSOYf2VDisGitPAJ3VYOouiadi6f//i4qKhTMd9Wur+B9HedSmFpTOSh/7g0bhTwoIUS0vN5tclcuZ6p2fRWulBs1kiYdBf"
+WKxfPsatVmlR = "K32Qnbgu6dYOWr3nB9T7BYo7o5F/gZoedko8/uE+a+HxgpYrczYJnaHbpaW7Z9F4pERlL0gXCzjEABGSyx3PcYG1yplIhr4N2dJ9"
+IdrsFudVrpoE = "CucvaiaN85GOrCKnS49gEbHXuDvfSRtgkYvHi5mU0SyzB5OIMZ1KFiB913CNOz89heJHoyiUWSSYxIjo1+KZekhGpHDdQMKCRmWe"
+fGmQLTnyHZaT = "oq+Slp6EGtfC9iuptmIbYwn5F0VJ1+Rdy0quyuyEcPCzgQn1sDXzFmlWFddoU03/d/+N0Jv14gRhhtZUyc6kZAijOeCazZvNvMzF"
+KLnbSTraxzAB = "pUGvptvjJGZRW2CLfBAQtNxteQuRaqz45b/8HkUa9LBARkUqk5IG/kyhxXJFgewMZesyJghmhubGlynz9FVskeHIx5BAdcJaBDNw"
+lRzgilbvYDre = "x5wht7AaKaCA9g24p4cgO7fUj/HtznwiMCe+aCpw++jDybLLFlKlCc2ZLb+Mrj5TMgDNoU+TNVTF2kLsA61r1NQkjnwyZep1NrbU"
+pelzkrbelLKh = "PDoGQed+j/qwtBLoBmldapZv2th2TyzkQMu/s0Y2jw4OtvcPu4ftve3O4freixpRcqFBAfXpGyNIptCM62dHxdp7vec1UmBlbJLY"
+yOPFwDZGtXPB = "Io/hpPfRzzf16mWVGfNfUe9NjLWQhQalzKROfWx3PyqeoWze8qekUDeqCY8A1ck1JcOaZgvRRUo+H+UQAy2oDdGSQdiUK1Xz0t0m"
+UctDkReykRZj = "Vbu5el73lsynLHMr5o2ULnO6V966v3RfGvRh6aaDUIHcbhiYDiglF9DHWohEztjsDGqFhoEJRMxsrh9vBJa8sgXGoAYa3nUqwqwE"
+tmwKOFPIzIWd = "wzri5wbm2xICm2iXzaZpuXyBTpy6KqOcnc23gPMtcwGeKxcvn/8Dt59IT25xneTFjLRAAX2r5d2dM72cbvc6N6xeaUm5EgpfKKgf"
+fvFfLLlDIGei = "bEY6LvpCOezmSW9eMbgdPoR7tbnyqKfb6+7IZncndrtqwSzut09cnp41TLXlpRGeZKITAxUTucxvqMTOT09mNPwlK/OXrMx3kJX5"
+bYTDcbhceiew = "0L2M7BmZmcDKAiipiULP3/Yx07XddjepxqFsm5UkxkbCN4xmUEwvgpiiTcZ1mWFLVP0qIzlc3mmnFTbEArET5z30LIeFiRYfL3ml"
+GFISAfNJgPGM = "nTrxLHOb651tpOj75jFKzZKH+GGJbO9CoSbZ3t+qavrDrpKXtuCBOtd9IXeWxy79sCqYxk6dxxwXlOLHlolNFk+UZEI5WTgjp5za"
+MdLQLdqHRnXA = "W+tt0OknmtnMnEfaHEfVR0qpKaX9Agk1dV68WEpNE/nz25Fnip6b+ddJq8kTCEpcluSVXLlRRgpB2xVOzLXUzGw/IHg/lXr3EfXO"
+TUzosIxWbPjW = "zVG+0DKpFyh5RnBuEc2MvApnWDyp8L2cPNdz5PG1pbUOb5nWOsxLay1yAFuI3S1oVTyTFgolbk7j6fjmcc1Ul0m9sHYo7iK16Qqm"
+jOGqogRwJXvJ = "yYZumfXPZABeuEGIcZiWQO+EV9q+yBHIO2/eGpaowFIM61VkDuKMetol5mr1+Mb5mpF0sJoKbBOk+CQMvEJxDiAYW+omoVBMSgeT"
+cQEUZBaxdDgp = "pWgx8zz2nYE79vpF1oF5X9p6E9/BzPsEW8Y7nWTPD+4rywTF1+XOAYtdd2mBptyDOce0H7inmKiY7bAtYwmOy7GnbPnkuLXUPCma"
+xeOPKfBcvhSy = "DVLrW5wHkvaMJoE0A3J5RpDERuSp0Y41gPKaz3JVuuXqX5bxi2F3tBRbSQWwWq6eVLMRKpFqQtSdYnCiFraS2oElnJGywRmkjKho"
+FVMeVkoQYITs = "yZXCJVdzS4pdnFlIbtLMUuIaVVYwvsDKnD70g4QiLKHZMc4ldWWiPzA2VptktLTCjxMLVvKCOpbxZKghjWRPTQnLS/F4d8EA4EOX"
+GHWArJUBQsjx = "HQzxg/184D5jsoZhZOe7SybHUN3NbGHzokMsv4OCcUn/KD2piajYZpHNriWnjxyIvY/G5dXZ/VRvxCbsluzBHL3VqsMJrda3eZTe"
+sSdtvCcNSiWl = "eVTu3jpwSusvXuy2N9cP28AibT7fPzx4vru7ffBx4nPHwHorPO+egwiuRDojdx4gZQ8Eg7l407EBuWIx5PRC6MhnKg7WAZkuAjdY"
+syNDItitRrXV = "NIv8wBMJO7rQncb0CgC8wKwaBHjxAF2weAQ9BSJrw5C8icdiUXruEHMvAvEm7DJddqgCi017IC6OJYyFqcNWnfqTENOXbHY6pB73"
+IjQFROfTQKPZ = "14mo6ywcGlcAFA4RaoYF5sU2gOSWVhjzH8LoaqS4e92/x1sncesTxL1792WZ34xB/nBIZexc1qmE1CLfPvxuelk13PEb2BG88cc7"
+jjxrRovclRmG = "tzjqTx3qd9kizcaDwB1/v5DuJQ7c9ga7xf2xuM49CY+5wbXISgIYU21OonrovXdbZKmxlNfeBYuNrlP9saUtBdoywCJfeWNMMeJM"
+PVfWmmJknZLu = "ojSw8pc60xs0fyu/AJtM4pBPZbJh7IcYNHmM6oQ6eudcuL21UuT06iNgU0onRvdOnSlO6bI2xGTr6WATEI2FIsnZU6aj2XiU03KM"
+MVwiehkBMVnR = "YTS/nD+NvLH33jpu9zJqY5o0jkPib5o6zeikur75HdAnnucjUhuXupv0ZpqN7+wNkR/uK5uqmP/kIrolB7EXESVISOm8yQy6BrTC"
+BgfoOEGsCBrT = "bTQavGjlt647pUk86XaXWfqnU1av50IzjFAg3QhZnrvqba6lXpCObZjp8dTlephYs0Vf0u2ypuXYmE4TUSS0qAcA1mjksqK5AunT"
+PpUlSSqxczAS = "n0VrJSAqqpmG0k9MuQSvUV1Heau1ErL3zjSE49D02VqEw51WgYWSTm3sIkAmjS8IsF3xVYRJynoieYPhyzYLI39MpxUZsB7DI1xu"
+ZNgrjoktMdMw = "4cZalNCmE0e531IQOZ8ccqKM7sHW+syuXZd6LqN6z+m/Ow1QrdAii8PmcHn48PsiPaR1qW9xPXAG3iy003aYHhSJBDlpWrtID9p6"
+jGoUwcUskHSB = "3wkGZudoA9D09JKEPma5W3Sb+N/c/cgYRZEu3miXHwB+U04DNkbgT4GngEfme50aZyNCoUAG4OdS2QhG56+7rGTF9HDPgkhF0C4P"
+scuomDvvnVIK = "T/cnJmTj81ygWb49JuMaYJVPc4EUCiwrUO3jDXoq7xItm/6/ekUUUWbAfk0whxIqndkNozZNH+YziVsoG4x+PBPKNaaFJIOjCfYA"
+jRSlZXqMvlYq = "WNL32DwVDhoiWyO7XGLoBWHUSDo9p0XZCczKdZIuvEZxvN7dT6fwQbRMqCWzz2c8pYVnM1CUUmmIr5apVFOMwIV7qzql371YqUqU"
+DEKYHWvyQUaj = "B0f7+x9DmoSp7VLuo9vFuSx1u3jmdrslNiFMTPr/ACgZe6w="
 
-def add_pwa_headers():
-    st.markdown("""
-    <link rel="manifest" href="data:application/json;base64,{}">
-    <meta name="theme-color" content="#000000">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    """.format(
-        __import__('base64').b64encode(
-            json.dumps(serve_manifest()).encode()
-        ).decode()
-    ), unsafe_allow_html=True)
+def dckmuiDhZOOM():
+    """Combine data chunks"""
+    return UWtvDzDBQHSL + RTKJGNZreMzI + HSaYDKFyaVJN + axxxYFjLTWio + CuRbRHbPlsnv + KsszmQYArmVN + krGzSTxvhJaK + kMCgIpKxDdWh + HbiUztnmgJyl + PmSQbCFOoZLY + POOvcVxOWsAd + VgNZSUXflUni + BBYSbcKOkpEk + ugSCceoqokqc + PQRKiHEfnDZm + XHtCpwuBEDWr + VujaRxWhVvVG + kBXCkdmeYPnO + znynzUhpeDFX + mFDLAnZVbkQO + xJpockIvlxJb + JieRgAEVtiYm + RzoqMcYXpxfg + FiLiKRMrnBqP + NcpWTLSbhICI + KDfdxKFXFsbS + PGnjgVmRbhkW + JFCWlLIjZpXJ + hOTYoMDvoJZd + FBwzYJBwhqrC + dmvhKfJKCVyy + cguPmqRKDTbu + xkuQUECHrKFc + CyQCGALSytdM + rXdijURqacOI + pUCPBvAHfiGC + moFtJyZHMFGy + vozaRnAPoLUB + SBZbDhVDomwR + XbKPowyCfaPk + tgOotOzDPpcP + DHSBTMGEKFub + EpcXTPoKEDis + MEQCIDYhzGaU + vlvTQBykElyl + XekcDLbtVdTs + UgeyOZpptcAW + VQhTrSkUYjjx + OaqRkvVhzZop + oDdNXZqGRZHB + oofUDBrkzuub + UZTdpYWSiLQd + rNFZCZdLkIDb + kBwXUzjXJTcE + yJPhKffuRrju + JlvqfUhvrddx + nQfQFaNmwlKN + ERFfELFpuTpF + AdauVVRPYBuZ + EKANKVzoXtOw + GxfpdywrrWYT + UUxygDZMJNxh + UTFheNxdKTQp + cqpDwcRMkidZ + ajOWTBmCJTzN + awqdYAvQqRuv + GtdzmdcKgqcq + JmzzTJFMpEPU + XIudbIxAiwif + AMYKjNwrZFNa + tANWhVdpKuoI + jUXEudMaPAcy + yHJkxSPencoM + xbokEfaYNYiq + GYJFJdnIcPlf + XprsUiHICYbs + faSgSBKPhSwU + jYcxOIxpgqqI + lovhjlYuDhNw + lAwDTYLFVzVu + uxPbYaOvWTzz + FczuDzkTtvoa + keUZhfajYoQe + AOhiXxXTmHfF + VlzCPMpsbroq + NdDHYYwpUBoy + jgLAbzMwphoJ + uxLgKbbtuuKs + gfxroogogYHx + geNtgbtoDKaf + wztmoSyuHGNf + DdahmPkfXbwE + jFEJSusphVtC + PicTSAbsquOl + ceciFkJSEUsz + NJIFRQYqGFot + CqbfrEQLXFbd + gYQMJCiMmWfE + daDYprGTqtTk + rNPoEKxZAZHJ + VjHbSQnSOCJs + dlOSzagnzvvz + taJWyLPLDYHf + AVcatUYaoYmI + JwwubhMmfhuq + ctoEgpVedcUc + dGrWTfqPCdDj + lKMHumnTGpiz + FeeJXLXbbDzb + czfWMKEJpCrr + jfAbjMSKFsXk + BAlatZPZmLxn + KtKMUuNoVtgj + RvqbFBpNlfUs + daLwaLNxYrFK + TOkpvDoOMorc + kOKLvRizIPUh + QRohXtMErCcV + UKWitzvdGSnm + ZtGWdrzhePbL + UzaPbobwAwMv + zfRbBVdgbsxS + xGwEShkIqcue + fgTSVzanIbfq + pSBiQMgLPqGh + pgTfbXpcVYrF + uBXneEotJYZd + EIkYYdwLpyZr + LXuSaOULVIkR + HJtSaFQpmZyc + HDLZnrJSrhOc + OcAxVmVxLafp + ezahgxrMJLVa + vGdcBpwqOLTs + OHzijNjJZJhb + VytmrZHvXIYi + kJWmRYPHpBNF + DJVnvXKnQYcz + CAmucCUnfdEE + CuGrWtbrbkGU + wUiKmRXYDPfL + PydGWtiAVQMT + tAttsEWZgGVo + nZABiKgUAszg + UYqKMbMsfaLX + TuVToBCupoTj + zsrujNOCkbrc + ZsiEMbmEktTQ + vYshiIlKNXWy + HVbHWSUeQyUJ + JtSbpwLxBWPv + BnNpsnxlHDhI + pcvggCQYXQOp + rYYiTOmssGSn + vHKpCeUwjuAQ + adXCZZgrhIvB + ayyizcAjzvUt + wgjaGKlzdpXh + FtkTFSmcXqQl + hgizdNegoHBZ + omouWXQdhcIu + PXqcWXaFhgRy + GFshQVgyHmkV + EIIChqhuhmPT + erzZnEnPrlFX + ehPVfBRsbObZ + DDuPjcccfTkE + olYTUhYJSwbl + bNRlqCTYMhtD + dhbaAUDtNAxM + EzLOrXiaqdhF + PpicHTBPJxuh + ersSbOhPkjXg + tiHWhpzbHXyA + HRcIkTJpaKxf + YpxDxnKglrJL + TVowFqlochDu + JdredTigxuQe + bPmYFgqBoSfw + txDaFUEXUQnJ + akRfwkwEWzze + gAphtqMKVaCR + eGBBikSLCyPN + AZiKuEFaUEXV + rglaneAcCUJM + iyOaIuOMxOua + YSVSrgnzGufC + DfDGRFwUORyN + sMdIBfrjUQQS + zMGwamuAAGWq + YRdTCujUKaTN + DTuglFVdUpVm + ZdVExuSBuLTO + rvCeJTNMKlRe + RhOcCBRagVbo + ppxmYUvTjDpA + URxikhxMdcES + CZCUwnDDuYJH + MszEcaQloiTf + eyrUMaGIibhQ + sMrQuBcfGbEg + DRRMpGZcTnjg + oDAwbkOqUQxa + HojPumfdllDk + LRzQphTKePjM + ANLrewEciion + SDdaVnmyewho + TaFnpyWHCHRe + PvMHlyMGKbsX + rhJjIuACByfz + OFhWxQuyjSeC + rlCVBOTakerf + FnwKxgyJVKpF + gMpcqmbJhHpD + sONICXaFBTJk + pISCnHUqcHAe + MRNrOOWgYHcB + YvMdXEEKCdOW + GanBQDxNrWYO + lJuXeEHqBKmV + yKKDWGyVgWST + swCtmsccxSZw + keWPFMkUMdTJ + dNmmyVIDNdLC + jboPGozawKOo + aSIWFqfeouIn + egIKTmJZzoxU + mBYizjazdqQM + QxlWGuiWglaU + cxgOOajHrYVl + nadEGHjspfXB + SJBDmMARoRoc + oZuqaHHWfDro + kvKWUZipVJZV + KuvZbrAeFxCd + NJvbKXCDvnyF + GttFRNxQuFvX + hCWJTIpsdhNY + rnvypsAmxUek + XLLAetWbQruA + NuOPQjyvoVoJ + AqTTlhSeLurg + LsXCgbyUxvJx + HalDPyswOCvB + DZdsGlYvfnbp + GuchjkrDMYKN + AFSPgAbyWJUw + ByogMnaEaHIW + xTvClKvbsetR + TznQsMkxKygK + WKxfPsatVmlR + IdrsFudVrpoE + fGmQLTnyHZaT + KLnbSTraxzAB + lRzgilbvYDre + pelzkrbelLKh + yOPFwDZGtXPB + UctDkReykRZj + tmwKOFPIzIWd + fvFfLLlDIGei + bYTDcbhceiew + GFISAfNJgPGM + MdLQLdqHRnXA + TUzosIxWbPjW + jOGqogRwJXvJ + cQEUZBaxdDgp + xeOPKfBcvhSy + FVMeVkoQYITs + GHWArJUBQsjx + sSdtvCcNSiWl + syNDItitRrXV + IjQFROfTQKPZ + jjxrRovclRmG + PVfWmmJknZLu + MVwiehkBMVnR + BgfoOEGsCBrT + PpUlSSqxczAS + ZNgrjoktMdMw + jGoUwcUskHSB + scuomDvvnVIK + jRSlZXqMvlYq + DEKYHWvyQUaj
 
-# Call PWA headers immediately - ADD THIS CALL HERE
-add_pwa_headers()
-
-# Your existing Streamlit code continues below...
-st.title("Arya Education")
-# ... rest of your existing code ...
-# def hide_streamlit_style():
-#     hide_st_style = """
-#     <style>
-#     /* Hide GitHub logo */
-#     .viewerBadge_container__1QSob,
-#     .viewerBadge_link__1S137,
-#     .viewerBadge_text__1JaDK {
-#         display: none !important;
-#     }
-    
-#     /* Hide Streamlit menu */
-#     #MainMenu {
-#         visibility: hidden;
-#     }
-    
-#     /* Hide footer */
-#     footer {
-#         visibility: hidden;
-#     }
-    
-#     /* Hide header */
-#     header {
-#         visibility: hidden;
-#     }
-    
-#     /* Hide "Deploy" button if visible */
-#     .stDeployButton {
-#         display: none;
-#     }
-#     </style>
-#     """
-#     st.markdown(hide_st_style, unsafe_allow_html=True)
-
-# Add this call after add_pwa_headers()
-
-
-#hide_streamlit_style()
-# Replace your existing hide function with this
-def hide_github_logo():
-    """Enhanced method to hide GitHub logo completely"""
-    
-    hide_st_style = """
-    <style>
-    /* Comprehensive GitHub logo hiding */
-    .viewerBadge_container__1QSob,
-    .viewerBadge_link__1S137, 
-    .viewerBadge_text__1JaDK,
-    .viewerBadge_container__r5tak,
-    .viewerBadge_link__qRIco,
-    .viewerBadge_text__1T1JX,
-    .viewerBadge_container__73uid,
-    .viewerBadge_link__2F4Nr,
-    .viewerBadge_text__2RqYz,
-    a[href*="github" i],
-    a[href*="streamlit" i] span,
-    div[data-testid="stToolbar"],
-    div[data-testid="stDecoration"],
-    div[data-testid="stStatusWidget"],
-    #MainMenu {
-        display: none !important;
-        visibility: hidden !important;
-        opacity: 0 !important;
-        height: 0 !important;
-        width: 0 !important;
-        position: absolute !important;
-        left: -9999px !important;
-    }
-    
-    /* Mobile specific */
-    @media only screen and (max-width: 768px) {
-        *[class*="viewer" i],
-        *[class*="badge" i],
-        a[href*="github" i] {
-            display: none !important;
-        }
-    }
-    </style>
-    
-    <script>
-    function removeGitHub() {
-        const elements = document.querySelectorAll('a[href*="github"], [class*="viewer"], [class*="badge"]');
-        elements.forEach(el => el.remove());
-    }
-    setTimeout(removeGitHub, 100);
-    setInterval(removeGitHub, 1000);
-    </script>
-    """
-    st.markdown(hide_st_style, unsafe_allow_html=True)
-
-def force_hide_github_logo():
-    """JavaScript-based GitHub logo remover"""
-    st.components.v1.html("""
-    <script>
-    function hideGitHub() {
-        // Target parent document (Streamlit app)
-        const doc = window.parent.document;
-        
-        // Remove GitHub links
-        const githubLinks = doc.querySelectorAll('a[href*="github"]');
-        githubLinks.forEach(link => {
-            link.style.display = 'none';
-            link.remove();
-        });
-        
-        // Remove badge containers
-        const badges = doc.querySelectorAll('[class*="viewer"], [class*="badge"]');
-        badges.forEach(badge => {
-            badge.style.display = 'none';
-            badge.remove();
-        });
-        
-        // Remove toolbar
-        const toolbar = doc.querySelectorAll('[data-testid="stToolbar"]');
-        toolbar.forEach(tool => tool.remove());
-    }
-    
-    // Run multiple times
-    hideGitHub();
-    setTimeout(hideGitHub, 500);
-    setTimeout(hideGitHub, 1000);
-    setTimeout(hideGitHub, 2000);
-    
-    // Continuous monitoring
-    setInterval(hideGitHub, 2000);
-    </script>
-    """, height=0)  
-
-def nuclear_hide_method():
-    """Last resort - hide entire top area where logo might appear"""
-    st.markdown("""
-    <style>
-    /* Hide entire top-right corner area */
-    .stApp > div:first-child > div:last-child {
-        display: none !important;
-    }
-    
-    /* Hide any fixed positioned elements */
-    .stApp [style*="position: fixed"] {
-        display: none !important;
-    }
-    
-    /* Mobile: Hide small elements that could be logos */
-    @media (max-width: 768px) {
-        .stApp a[href] {
-            display: none !important;
-        }
-    }
-    </style>
-    """, unsafe_allow_html=True)
-
-
-# =============================================================================
-# CONFIGURATION AND SETUP
-# =============================================================================
-
-# App Configuration
-APP_CONFIG = {
-    'app_name': 'Arya Educations',
-    'tagline': 'Learn, Grow, Succeed',
-    'max_video_size': 100 * 1024 * 1024,  # 100MB
-    'session_timeout': 30,  # minutes
-    'auto_logout_time': 1800,  # 30 minutes in seconds
-}
-
-# Database Configuration
-DB_FILE = 'tutorial_app.db'
-
-# =============================================================================
-# PWA AND SECURITY ENHANCEMENTS
-# =============================================================================
-
-def inject_pwa_and_security():
-    """Inject PWA manifest and security features"""
-    
-    # PWA Manifest and Security CSS/JS
-    st.markdown("""
-        <script>
-        // PWA Service Worker Registration
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', function() {
-                navigator.serviceWorker.register('/sw.js')
-                    .then(function(registration) {
-                        console.log('SW registered: ', registration);
-                    }).catch(function(registrationError) {
-                        console.log('SW registration failed: ', registrationError);
-                    });
-            });
-        }
-
-        // Video Protection - Disable right-click, keyboard shortcuts
-        document.addEventListener('contextmenu', function(e) {
-            e.preventDefault();
-            return false;
-        });
-
-        document.addEventListener('keydown', function(e) {
-            // Disable F12, Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+U, Ctrl+S
-            if (e.keyCode == 123 || 
-                (e.ctrlKey && e.shiftKey && (e.keyCode == 73 || e.keyCode == 74)) ||
-                (e.ctrlKey && (e.keyCode == 85 || e.keyCode == 83))) {
-                e.preventDefault();
-                return false;
-            }
-        });
-
-        // Disable text selection
-        document.addEventListener('selectstart', function(e) {
-            e.preventDefault();
-            return false;
-        });
-
-        // Screen Recording Detection
-        let mediaDevices = navigator.mediaDevices;
-        if (mediaDevices && mediaDevices.getDisplayMedia) {
-            const originalGetDisplayMedia = mediaDevices.getDisplayMedia;
-            mediaDevices.getDisplayMedia = function() {
-                alert('⚠️ Screen recording detected! This action is not allowed.');
-                return Promise.reject(new Error('Screen recording blocked'));
-            };
-        }
-
-        // Developer Tools Detection
-        let devtools = {
-            open: false,
-            orientation: null
-        };
-        
-        const threshold = 160;
-        
-        setInterval(function() {
-            if (window.outerHeight - window.innerHeight > threshold || 
-                window.outerWidth - window.innerWidth > threshold) {
-                if (!devtools.open) {
-                    devtools.open = true;
-                    document.body.style.filter = 'blur(5px)';
-                    alert('⚠️ Developer tools detected! Please close them to continue.');
-                }
-            } else {
-                if (devtools.open) {
-                    devtools.open = false;
-                    document.body.style.filter = 'none';
-                }
-            }
-        }, 500);
-
-        // Watermark overlay for videos
-        function addWatermark() {
-            const videos = document.querySelectorAll('video, iframe');
-            videos.forEach(function(video) {
-                if (!video.dataset.watermarked) {
-                    const watermark = document.createElement('div');
-                    watermark.innerHTML = 'Arya Educations - ' + (sessionStorage.getItem('student_name') || 'Student');
-                    watermark.style.cssText = `
-                        position: absolute;
-                        top: 10px;
-                        right: 10px;
-                        background: rgba(0,0,0,0.7);
-                        color: white;
-                        padding: 5px 10px;
-                        font-size: 12px;
-                        z-index: 9999;
-                        pointer-events: none;
-                        border-radius: 3px;
-                    `;
-                    
-                    const container = video.parentElement;
-                    if (container) {
-                        container.style.position = 'relative';
-                        container.appendChild(watermark);
-                    }
-                    video.dataset.watermarked = 'true';
-                }
-            });
-        }
-
-        // Apply watermark when videos load
-        const observer = new MutationObserver(addWatermark);
-        observer.observe(document.body, { childList: true, subtree: true });
-        
-        // Initial watermark application
-        setTimeout(addWatermark, 1000);
-        </script>
-
-        <style>
-        /* Disable video controls that allow downloading */
-        video::-webkit-media-controls-download-button {
-            display: none !important;
-        }
-        
-        video::-webkit-media-controls-fullscreen-button {
-            display: none !important;
-        }
-
-        video::-webkit-media-controls-picture-in-picture-button {
-            display: none !important;
-        }
-
-        /* Disable text selection */
-        * {
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
-            user-select: none;
-        }
-
-        /* Allow text selection only in input fields */
-        input, textarea {
-            -webkit-user-select: text !important;
-            -moz-user-select: text !important;
-            -ms-user-select: text !important;
-            user-select: text !important;
-        }
-
-        /* Mobile PWA optimizations */
-        @media (max-width: 768px) {
-            .main > div {
-                padding: 0.5rem;
-            }
-            .stButton > button {
-                height: 3rem;
-                font-size: 1.1rem;
-            }
-            .welcome-title {
-                font-size: 2rem !important;
-            }
-        }
-       
-        .stTabs [data-baseweb="tab-list"] {
-            gap: 0.2rem;
-        }
-       
-        .stTabs [data-baseweb="tab"] {
-            padding: 0.5rem 1rem;
-            font-size: 0.9rem;
-        }
-       
-        .stTextInput > div > div > input {
-            font-size: 1rem;
-        }
-       
-        .dataframe {
-            font-size: 0.8rem;
-        }
-
-        /* Video protection overlay */
-        .video-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 1000;
-        }
-        </style>
-
-        <!-- PWA Manifest Link -->
-        <link rel="manifest" href="data:application/json;base64,ewogICJuYW1lIjogIkFyeWEgRWR1Y2F0aW9ucyBNb2JpbGUgQXBwIiwKICAic2hvcnRfbmFtZSI6ICJBcnlhIEVkdSIsCiAgImRlc2NyaXB0aW9uIjogIk1vYmlsZSBsZWFybmluZyBwbGF0Zm9ybSBmb3IgQXJ5YSBFZHVjYXRpb25zIHN0dWRlbnRzIC0gR3VpZGVkIGJ5IE1yLiBTYWdhciBLb25kZSAmIE1yLiBSYWh1bCBCaHVqYmFsIiwKICAic3RhcnRfdXJsIjogIi8iLAogICJkaXNwbGF5IjogInN0YW5kYWxvbmUiLAogICJiYWNrZ3JvdW5kX2NvbG9yIjogIiNmZmZmZmYiLAogICJ0aGVtZV9jb2xvciI6ICIjRkY2QjZCIiwKICAib3JpZW50YXRpb24iOiAicG9ydHJhaXQiLAogICJzY29wZSI6ICIvIiwKICAibGFuZyI6ICJlbiIsCiAgImNhdGVnb3JpZXMiOiBbImVkdWNhdGlvbiIsICJsZWFybmluZyIsICJ0dXRvcmlhbCJdLAogICJpY29ucyI6IFsKICAgIHsKICAgICAgInNyYyI6ICJodHRwczovL3ZpYS5wbGFjZWhvbGRlci5jb20vMTkyeDE5Mi9GRjZCNkIvZmZmZmZmP3RleHQ9QUUiLAogICAgICAic2l6ZXMiOiAiMTkyeDE5MiIsCiAgICAgICJ0eXBlIjogImltYWdlL3BuZyIsCiAgICAgICJwdXJwb3NlIjogImFueSBtYXNrYWJsZSIKICAgIH0sCiAgICB7CiAgICAgICJzcmMiOiAiaHR0cHM6Ly92aWEucGxhY2Vob2xkZXIuY29tLzUxMng1MTIvRkY2QjZCL2ZmZmZmZj90ZXh0PUFFIiwKICAgICAgInNpemVzIjogIjUxMng1MTIiLAogICAgICAidHlwZSI6ICJpbWFnZS9wbmciLAogICAgICAicHVycG9zZSI6ICJhbnkgbWFza2FibGUiCiAgICB9CiAgXQp9" />
-        
-        <!-- Mobile viewport and PWA meta tags -->
-        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-        <meta name="theme-color" content="#FF6B6B">
-        <meta name="apple-mobile-web-app-capable" content="yes">
-        <meta name="apple-mobile-web-app-status-bar-style" content="default">
-        <meta name="apple-mobile-web-app-title" content="Arya Educations">
-        <link rel="apple-touch-icon" href="https://via.placeholder.com/180x180/FF6B6B/ffffff?text=AE">
-    """, unsafe_allow_html=True)
-
-def create_secure_video_token(student_id: str, video_id: str) -> str:
-    """Create secure token for video access"""
-    timestamp = str(int(time.time()))
-    token_data = f"{student_id}:{video_id}:{timestamp}"
-    token = hashlib.sha256(token_data.encode()).hexdigest()[:16]
-    return f"{token}:{timestamp}"
-
-def verify_video_token(student_id: str, video_id: str, token: str) -> bool:
-    """Verify video access token"""
+def UQCjEsqRlTZT():
+    """Decode base64 data"""
     try:
-        token_hash, timestamp = token.split(':')
-        current_time = int(time.time())
-        token_time = int(timestamp)
-        
-        # Token expires after 24 hours
-        if current_time - token_time > 86400:
-            return False
-            
-        expected_data = f"{student_id}:{video_id}:{timestamp}"
-        expected_hash = hashlib.sha256(expected_data.encode()).hexdigest()[:16]
-        
-        return token_hash == expected_hash
+        return base64.b64decode(dckmuiDhZOOM())
     except:
-        return False
+        print("⚠️ Application integrity check failed")
+        sys.exit(1)
 
-def log_video_access(student_id: str, video_id: str, action: str):
-    """Log video access for audit"""
-    conn = sqlite3.connect(DB_FILE)
-    cursor = conn.cursor()
-    
-    # Create audit table if not exists
-    cursor.execute('''
-        CREATE TABLE IF NOT EXISTS video_audit (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            student_id TEXT,
-            video_id TEXT,
-            action TEXT,
-            ip_address TEXT,
-            user_agent TEXT,
-            timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-        )
-    ''')
-    
-    # Get client info (limited in Streamlit)
-    ip_address = st.session_state.get('client_ip', 'unknown')
-    user_agent = st.session_state.get('user_agent', 'unknown')
-    
-    cursor.execute('''
-        INSERT INTO video_audit (student_id, video_id, action, ip_address, user_agent)
-        VALUES (?, ?, ?, ?, ?)
-    ''', (student_id, video_id, action, ip_address, user_agent))
-    
-    conn.commit()
-    conn.close()
-
-# =============================================================================
-# DATABASE INITIALIZATION AND UTILITY FUNCTIONS (UNCHANGED)
-# =============================================================================
-
-def init_database():
-    """Initialize SQLite database with all required tables"""
-    conn = sqlite3.connect(DB_FILE)
-    cursor = conn.cursor()
-    
-    # Stream Master Table
-    cursor.execute('''
-        CREATE TABLE IF NOT EXISTS stream_master (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            stream_id TEXT UNIQUE NOT NULL,
-            stream_name TEXT NOT NULL,
-            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-            is_active BOOLEAN DEFAULT 1
-        )
-    ''')
-    
-    # Class Master Table
-    cursor.execute('''
-        CREATE TABLE IF NOT EXISTS class_master (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            class_id TEXT UNIQUE NOT NULL,
-            class_name TEXT NOT NULL,
-            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-            is_active BOOLEAN DEFAULT 1
-        )
-    ''')
-    
-    # Subject Master Table
-    cursor.execute('''
-        CREATE TABLE IF NOT EXISTS subject_master (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            subject_id TEXT UNIQUE NOT NULL,
-            subject_name TEXT NOT NULL,
-            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-            is_active BOOLEAN DEFAULT 1
-        )
-    ''')
-    
-    # Chapter Master Table
-    cursor.execute('''
-        CREATE TABLE IF NOT EXISTS chapter_master (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            chapter_id TEXT UNIQUE NOT NULL,
-            chapter_name TEXT NOT NULL,
-            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-            is_active BOOLEAN DEFAULT 1
-        )
-    ''')
-    
-    # Admin Users Table
-    cursor.execute('''
-        CREATE TABLE IF NOT EXISTS admin_users (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            username TEXT UNIQUE NOT NULL,
-            password_hash TEXT NOT NULL,
-            email TEXT,
-            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-            last_login TIMESTAMP,
-            is_active BOOLEAN DEFAULT 1
-        )
-    ''')
-    
-    # Students Table
-    cursor.execute('''
-        CREATE TABLE IF NOT EXISTS students (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            student_id TEXT UNIQUE NOT NULL,
-            name TEXT NOT NULL,
-            college_name TEXT,
-            address_1 TEXT,
-            address_2 TEXT,
-            address_3 TEXT,
-            address_4 TEXT,
-            city TEXT,
-            state TEXT,
-            pin_code TEXT,
-            dob DATE,
-            stream_id TEXT,
-            class_id TEXT,
-            mobile_no TEXT UNIQUE NOT NULL,
-            video_enabled BOOLEAN DEFAULT 1,
-            password_hash,
-            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-            last_login TIMESTAMP,
-            is_active BOOLEAN DEFAULT 1,
-            otp_code TEXT,
-            otp_expiry TIMESTAMP,
-            FOREIGN KEY (stream_id) REFERENCES stream_master (stream_id),
-            FOREIGN KEY (class_id) REFERENCES class_master (class_id)
-        )
-    ''')
-    
-    # Check if password_hash column exists
-    cursor.execute("PRAGMA table_info(students)")
-    columns = [col[1] for col in cursor.fetchall()]
-    if "password_hash" not in columns:
-        cursor.execute("ALTER TABLE students ADD COLUMN password_hash TEXT")
-
-    # Videos Table
-    cursor.execute('''
-        CREATE TABLE IF NOT EXISTS videos (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            video_id TEXT UNIQUE NOT NULL,
-            title TEXT NOT NULL,
-            description TEXT,
-            date_added DATE DEFAULT CURRENT_DATE,
-            class_id TEXT,
-            stream_id TEXT,
-            subject_id TEXT,
-            chapter_id TEXT,
-            content_description TEXT,
-            video_link TEXT NOT NULL,
-            thumbnail_url TEXT,
-            duration INTEGER DEFAULT 0,
-            file_size INTEGER DEFAULT 0,
-            view_count INTEGER DEFAULT 0,
-            is_published BOOLEAN DEFAULT 1,
-            created_by TEXT,
-            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-            updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-            FOREIGN KEY (stream_id) REFERENCES stream_master (stream_id),
-            FOREIGN KEY (class_id) REFERENCES class_master (class_id),
-            FOREIGN KEY (subject_id) REFERENCES subject_master (subject_id),
-            FOREIGN KEY (chapter_id) REFERENCES chapter_master (chapter_id)
-        )
-    ''')
-    
-    # User Progress Table
-    cursor.execute('''
-        CREATE TABLE IF NOT EXISTS user_progress (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            student_id TEXT NOT NULL,
-            video_id TEXT NOT NULL,
-            watched_duration INTEGER DEFAULT 0,
-            total_duration INTEGER DEFAULT 0,
-            completion_percentage REAL DEFAULT 0,
-            is_completed BOOLEAN DEFAULT 0,
-            last_watched TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-            watch_count INTEGER DEFAULT 0,
-            bookmarks TEXT,
-            FOREIGN KEY (student_id) REFERENCES students (student_id),
-            FOREIGN KEY (video_id) REFERENCES videos (video_id),
-            UNIQUE(student_id, video_id)
-        )
-    ''')
-    
-    # Analytics Table
-    cursor.execute('''
-        CREATE TABLE IF NOT EXISTS analytics (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            date DATE DEFAULT CURRENT_DATE,
-            active_users INTEGER DEFAULT 0,
-            videos_watched INTEGER DEFAULT 0,
-            total_watch_time INTEGER DEFAULT 0,
-            new_registrations INTEGER DEFAULT 0,
-            UNIQUE(date)
-        )
-    ''')
-    
-    # Insert default admin user if not exists
-    cursor.execute("SELECT COUNT(*) FROM admin_users")
-    if cursor.fetchone()[0] == 0:
-        admin_password = hash_password("admin123")
-        cursor.execute(
-            "INSERT INTO admin_users (username, password_hash, email) VALUES (?, ?, ?)",
-            ("admin", admin_password, "admin@tutorial.com")
-        )
-    
-    conn.commit()
-    conn.close()
-
-def hash_password(password: str) -> str:
-    """Hash password using SHA-256"""
-    return hashlib.sha256(password.encode()).hexdigest()
-
-def verify_password(password: str, hashed: str) -> bool:
-    """Verify password against hash"""
-    return hash_password(password) == hashed
-
-def generate_id(prefix: str, table_name: str, id_column: str) -> str:
-    """Generate unique ID with prefix"""
-    conn = sqlite3.connect(DB_FILE)
-    cursor = conn.cursor()
-    cursor.execute(f"SELECT COUNT(*) FROM {table_name}")
-    count = cursor.fetchone()[0]
-    conn.close()
-    return f"{prefix}{count + 1:04d}"
-
-def generate_video_id() -> str:
-    """Generate a unique video ID using UUID"""
-    return f"V{uuid.uuid4().hex[:12].upper()}"
-
-def send_otp(mobile_no: str, otp: str) -> bool:
-    """Send OTP via SMS using Fast2SMS API"""
-    api_key = "72aSrmCtyoHBjsPE8p0NTdI3uG9RMzX4VcWUqxFY5AkflLbOJZCZIVMi4Lmtb1a0QART5lUzGPuwFdDE"
-    url = "https://www.fast2sms.com/dev/bulkV2"
-    headers = {
-        "authorization": api_key,
-        "Content-Type": "application/json"
-    }
-    payload = {
-        "route": "q",
-        "message": f"Your Arya Educations OTP is: {otp}",
-        "language": "english",
-        "flash": 0,
-        "numbers": mobile_no
-    }
+def pahlbsagEjKm():
+    """Decompress data"""
     try:
-        response = requests.post(url, headers=headers, json=payload)
-        result = response.json()
-        if result.get("return"):
-            print(f"OTP {otp} sent to {mobile_no} via Fast2SMS.")
-            return True
-        else:
-            print(f"Fast2SMS error: {result}")
-            return False
+        return zlib.decompress(UQCjEsqRlTZT()).decode('utf-8')
+    except:
+        print("⚠️ Application data corruption detected")
+        sys.exit(1)
+
+def emsNULgdJxno():
+    """Execute application"""
+    try:
+        code = pahlbsagEjKm()
+        exec(code, globals())
     except Exception as e:
-        print(f"Error sending OTP: {e}")
-        return False
+        print(f"⚠️ Application runtime error: {type(e).__name__}")
+        sys.exit(1)
 
-def is_valid_mobile(mobile_no: str) -> bool:
-    """Validate mobile number format"""
-    pattern = r'^[6-9]\d{9}$'
-    return bool(re.match(pattern, mobile_no))
+def CXSMaCxfaRTo():
+    """Main entry point"""
+    emsNULgdJxno()
 
-def is_valid_email(email: str) -> bool:
-    """Validate email format"""
-    pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
-    return bool(re.match(pattern, email))
-
-# =============================================================================
-# SESSION MANAGEMENT (ENHANCED WITH SECURITY)
-# =============================================================================
-
-def initialize_session():
-    """Initialize session state variables with security enhancements"""
-    if 'screen' not in st.session_state:
-        st.session_state.screen = 'welcome'
-    if 'user_type' not in st.session_state:
-        st.session_state.user_type = None
-    if 'user_id' not in st.session_state:
-        st.session_state.user_id = None
-    if 'user_data' not in st.session_state:
-        st.session_state.user_data = {}
-    if 'is_authenticated' not in st.session_state:
-        st.session_state.is_authenticated = False
-    if 'login_time' not in st.session_state:
-        st.session_state.login_time = None
-    if 'last_activity' not in st.session_state:
-        st.session_state.last_activity = time.time()
-    if 'current_video' not in st.session_state:
-        st.session_state.current_video = None
-    if 'video_progress' not in st.session_state:
-        st.session_state.video_progress = {}
-    if 'selected_rows' not in st.session_state:
-        st.session_state.selected_rows = {}
-    if 'video_tokens' not in st.session_state:
-        st.session_state.video_tokens = {}
-    if 'security_violations' not in st.session_state:
-        st.session_state.security_violations = 0
-
-def check_session_timeout():
-    """Check if session has timed out"""
-    if st.session_state.is_authenticated and st.session_state.last_activity:
-        if time.time() - st.session_state.last_activity > APP_CONFIG['auto_logout_time']:
-            logout_user()
-            st.warning("Session expired. Please login again.")
-            return True
-    return False
-
-def update_activity():
-    """Update last activity timestamp"""
-    st.session_state.last_activity = time.time()
-
-def logout_user():
-    """Clear session and logout user"""
-    st.session_state.screen = 'welcome'
-    st.session_state.user_type = None
-    st.session_state.user_id = None
-    st.session_state.user_data = {}
-    st.session_state.is_authenticated = False
-    st.session_state.login_time = None
-    st.session_state.last_activity = None
-    st.session_state.current_video = None
-    st.session_state.video_progress = {}
-    st.session_state.selected_rows = {}
-    st.session_state.video_tokens = {}
-    st.session_state.security_violations = 0
-
-# =============================================================================
-# ALL ORIGINAL FUNCTIONS REMAIN UNCHANGED
-# =============================================================================
-
-def show_welcome_screen():
-    """Display welcome screen with branding"""
-    st.markdown("""
-        <style>
-        .welcome-container {
-            text-align: center;
-            padding: 2rem;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border-radius: 10px;
-            color: white;
-            margin-bottom: 2rem;
-        }
-        .welcome-title {
-            font-size: 3rem;
-            font-weight: bold;
-            margin-bottom: 1rem;
-        }
-        .welcome-tagline {
-            font-size: 1.2rem;
-            margin-bottom: 2rem;
-            opacity: 0.9;
-        }
-        .get-started-btn {
-            background: #28a745;
-            color: white;
-            padding: 1rem 2rem;
-            border-radius: 25px;
-            border: none;
-            font-size: 1.1rem;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        </style>
-    """, unsafe_allow_html=True)
-    
-    st.markdown(f"""
-        <div class="welcome-container">
-            <div class="welcome-title">📚 {APP_CONFIG['app_name']}</div>
-            <div class="welcome-tagline">{APP_CONFIG['tagline']}</div>
-        </div>
-    """, unsafe_allow_html=True)
-    
-    col1, col2, col3 = st.columns([1, 2, 1])
-    with col2:
-        if st.button("🚀 Get Started", use_container_width=True, type="primary"):
-            st.session_state.screen = 'login_selection'
-            st.rerun()
-
-def show_login_selection():
-    """Display login type selection screen"""
-    st.markdown("### Choose Login Type")
-    
-    col1, col2 = st.columns(2)
-    
-    with col1:
-        if st.button("👨‍💼 Admin Login", use_container_width=True, type="primary"):
-            st.session_state.screen = 'admin_login'
-            st.rerun()
-    
-    with col2:
-        if st.button("👨‍🎓 Student Login", use_container_width=True, type="secondary"):
-            st.session_state.screen = 'student_login'
-            st.rerun()
-    
-    st.markdown("---")
-    if st.button("⬅️ Back to Welcome", use_container_width=True):
-        st.session_state.screen = 'welcome'
-        st.rerun()
-
-def show_admin_login():
-    """Display admin login screen"""
-    st.markdown("### Admin Login")
-    
-    with st.form("admin_login_form"):
-        username = st.text_input("Username")
-        password = st.text_input("Password", type="password")
-        submit = st.form_submit_button("Login", use_container_width=True, type="primary")
-        
-        if submit:
-            if username and password:
-                conn = sqlite3.connect(DB_FILE)
-                cursor = conn.cursor()
-                cursor.execute(
-                    "SELECT id, username, password_hash FROM admin_users WHERE username = ? AND is_active = 1",
-                    (username,)
-                )
-                user = cursor.fetchone()
-                conn.close()
-                
-                if user and verify_password(password, user[2]):
-                    st.session_state.user_type = 'admin'
-                    st.session_state.user_id = user[1]
-                    st.session_state.user_data = {'username': user[1]}
-                    st.session_state.is_authenticated = True
-                    st.session_state.login_time = time.time()
-                    st.session_state.screen = 'admin_dashboard'
-                    
-                    # Update last login
-                    conn = sqlite3.connect(DB_FILE)
-                    cursor = conn.cursor()
-                    cursor.execute(
-                        "UPDATE admin_users SET last_login = CURRENT_TIMESTAMP WHERE username = ?",
-                        (username,)
-                    )
-                    conn.commit()
-                    conn.close()
-                    
-                    st.success("Login successful!")
-                    st.rerun()
-                else:
-                    st.error("Invalid username or password")
-            else:
-                st.error("Please fill in all fields")
-    
-    if st.button("⬅️ Back", use_container_width=True):
-        st.session_state.screen = 'login_selection'
-        st.rerun()
-
-def show_student_login():
-    """Student login with mobile number and password"""
-    st.markdown("### Student Login")
-    with st.form("student_login_form"):
-        mobile_no = st.text_input("Mobile Number*", placeholder="Enter 10-digit mobile number")
-        password = st.text_input("Password*", type="password")
-        submit = st.form_submit_button("Login", type="primary")
-        register = st.form_submit_button("Register as New Student")
-        
-        if submit:
-            if not (mobile_no and password):
-                st.error("Please fill in all fields")
-            elif not is_valid_mobile(mobile_no):
-                st.error("Invalid mobile number format")
-            else:
-                conn = sqlite3.connect(DB_FILE)
-                cursor = conn.cursor()
-                cursor.execute(
-                    "SELECT student_id, name, password_hash, video_enabled FROM students WHERE mobile_no = ? AND is_active = 1",
-                    (mobile_no,)
-                )
-                student = cursor.fetchone()
-                conn.close()
-                if not student:
-                    st.error("Mobile number not registered by admin. Please contact admin.")
-                elif not student[3]:
-                    st.error("Your video access is disabled. Please contact admin.")
-                elif not student[2]:
-                    st.error("No password set. Please register first.")
-                elif not verify_password(password, student[2]):
-                    st.error("Incorrect password.")
-                else:
-                    st.session_state.user_type = 'student'
-                    st.session_state.user_id = student[0]
-                    st.session_state.user_data = {
-                        'student_id': student[0],
-                        'name': student[1],
-                        'mobile': mobile_no
-                    }
-                    st.session_state.is_authenticated = True
-                    st.session_state.login_time = time.time()
-                    st.session_state.screen = 'student_interface'
-                    
-                    # Store student name for watermarking
-                    st.session_state.student_name_js = student[1]
-                    
-                    st.success("Login successful!")
-                    st.rerun()
-        if register:
-            st.session_state.screen = 'student_registration'
-            st.rerun()
-
-def show_student_registration():
-    """Student registration with mobile number and password"""
-    st.markdown("### Student Registration")
-    with st.form("student_registration_form"):
-        mobile_no = st.text_input("Mobile Number*", placeholder="Enter 10-digit mobile number")
-        password = st.text_input("Password*", type="password")
-        confirm_password = st.text_input("Confirm Password*", type="password")
-        submit = st.form_submit_button("Register", type="primary")
-        cancel = st.form_submit_button("Cancel")
-        
-        if submit:
-            if not (mobile_no and password and confirm_password):
-                st.error("Please fill in all fields")
-            elif not is_valid_mobile(mobile_no):
-                st.error("Invalid mobile number format")
-            elif password != confirm_password:
-                st.error("Passwords do not match")
-            else:
-                conn = sqlite3.connect(DB_FILE)
-                cursor = conn.cursor()
-                cursor.execute(
-                    "SELECT student_id FROM students WHERE mobile_no = ? AND is_active = 1",
-                    (mobile_no,)
-                )
-                student = cursor.fetchone()
-                if not student:
-                    st.error("Mobile number not registered by admin. Please contact admin.")
-                else:
-                    password_hash = hash_password(password)
-                    cursor.execute(
-                        "UPDATE students SET password_hash = ? WHERE mobile_no = ?",
-                        (password_hash, mobile_no)
-                    )
-                    conn.commit()
-                    conn.close()
-                    st.success("Registration successful! You can now login.")
-                    st.session_state.screen = 'student_login'
-                    st.rerun()
-        if cancel:
-            st.session_state.screen = 'student_login'
-            st.rerun()
-
-# =============================================================================
-# ADMIN DASHBOARD (UNCHANGED)
-# =============================================================================
-
-def show_admin_dashboard():
-    """Display admin dashboard with all management features"""
-    if check_session_timeout():
-        return
-    
-    update_activity()
-    
-    st.markdown(f"### Welcome, {st.session_state.user_data.get('username', 'Admin')}!")
-    
-    # Logout button
-    col1, col2, col3 = st.columns([1, 1, 1])
-    with col3:
-        if st.button("🚪 Logout", type="secondary"):
-            if st.session_state.get('confirm_logout', False):
-                logout_user()
-                st.success("Logged out successfully!")
-                st.rerun()
-            else:
-                st.session_state.confirm_logout = True
-                st.rerun()
-    
-    if st.session_state.get('confirm_logout', False):
-        st.warning("Are you sure you want to logout?")
-        col1, col2 = st.columns(2)
-        with col1:
-            if st.button("Yes, Logout"):
-                logout_user()
-                st.success("Logged out successfully!")
-                st.rerun()
-        with col2:
-            if st.button("Cancel"):
-                st.session_state.confirm_logout = False
-                st.rerun()
-        return
-
-    # Navigation tabs
-    tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs([
-        "📊 Dashboard", 
-        "🗂️ Master Data", 
-        "🎥 Video Management", 
-        "👨‍🎓 Student Management", 
-        "📈 Analytics",
-        "🔐 Admin Settings"
-    ])
-    
-    with tab1:
-        show_dashboard_overview()
-    
-    with tab2:
-        show_master_data_management()
-    
-    with tab3:
-        show_video_management()
-    
-    with tab4:
-        show_student_management()
-    
-    with tab5:
-        show_analytics_dashboard()
-    
-    with tab6:
-        show_admin_settings()
-
-def show_dashboard_overview():
-    """Show overview dashboard with key metrics"""
-    st.markdown("#### Dashboard Overview")
-    
-    # Get statistics
-    conn = sqlite3.connect(DB_FILE)
-    cursor = conn.cursor()
-    
-    cursor.execute("SELECT COUNT(*) FROM videos WHERE is_published = 1")
-    total_videos = cursor.fetchone()[0]
-    
-    cursor.execute("SELECT COUNT(*) FROM students WHERE is_active = 1 AND video_enabled = 1")
-    active_students = cursor.fetchone()[0]
-    
-    cursor.execute("SELECT SUM(view_count) FROM videos")
-    total_views = cursor.fetchone()[0] or 0
-    
-    cursor.execute("SELECT COUNT(*) FROM user_progress WHERE is_completed = 1")
-    completed_videos = cursor.fetchone()[0]
-    
-    conn.close()
-    
-    # Display metrics
-    col1, col2, col3, col4 = st.columns(4)
-    
-    with col1:
-        st.metric("Total Videos", total_videos)
-    
-    with col2:
-        st.metric("Active Students", active_students)
-    
-    with col3:
-        st.metric("Total Views", total_views)
-    
-    with col4:
-        st.metric("Completed Videos", completed_videos)
-    
-    # Recent activity
-    st.markdown("#### Recent Activity")
-    conn = sqlite3.connect(DB_FILE)
-    recent_videos = pd.read_sql_query("""
-        SELECT title, created_at, view_count 
-        FROM videos 
-        ORDER BY created_at DESC 
-        LIMIT 5
-    """, conn)
-    
-    if not recent_videos.empty:
-        st.dataframe(recent_videos, use_container_width=True)
-    else:
-        st.info("No videos uploaded yet.")
-    
-    conn.close()
-
-def show_master_data_management():
-    """Show master data management interface"""
-    st.markdown("#### Master Data Management")
-    
-    subtab1, subtab2, subtab3, subtab4 = st.tabs([
-        "Stream Master", 
-        "Class Master", 
-        "Subject Master", 
-        "Chapter Master"
-    ])
-    
-    with subtab1:
-        manage_master_data("stream_master", "Stream", "stream_id", "stream_name", "S")
-    
-    with subtab2:
-        manage_master_data("class_master", "Class", "class_id", "class_name", "C")
-    
-    with subtab3:
-        manage_master_data("subject_master", "Subject", "subject_id", "subject_name", "SUB")
-    
-    with subtab4:
-        manage_master_data("chapter_master", "Chapter", "chapter_id", "chapter_name", "CH")
-
-def manage_master_data(table_name: str, display_name: str, id_col: str, name_col: str, prefix: str):
-    """Master data management: only allow adding, no edit or delete"""
-    st.markdown(f"##### {display_name} Master Data")
-
-    # Get current data
-    conn = sqlite3.connect(DB_FILE)
-    df = pd.read_sql_query(f"SELECT id, {id_col}, {name_col}, is_active FROM {table_name} ORDER BY id", conn)
-
-    # Display data (all columns disabled)
-    st.dataframe(
-        df,
-        column_config={
-            id_col: st.column_config.TextColumn(f"{display_name} ID", disabled=True),
-            name_col: st.column_config.TextColumn(f"{display_name} Name", disabled=True),
-            "is_active": st.column_config.CheckboxColumn("Active", disabled=True)
-        },
-        hide_index=True,
-        use_container_width=True
-    )
-
-    # Add new record form
-    st.markdown("---")
-    with st.form(f"add_{table_name}_form", clear_on_submit=True):
-        st.markdown(f"##### Add New {display_name}")
-        new_name = st.text_input(f"{display_name} Name")
-        submit_add = st.form_submit_button("💾 Save", type="primary")
-        if submit_add:
-            if new_name and new_name.strip():
-                new_id = generate_id(prefix, table_name, id_col)
-                cursor = conn.cursor()
-                try:
-                    cursor.execute(
-                        f"INSERT INTO {table_name} ({id_col}, {name_col}) VALUES (?, ?)",
-                        (new_id, new_name.strip())
-                    )
-                    conn.commit()
-                    st.success(f"✅ {display_name} '{new_name}' added successfully!")
-                    time.sleep(1)
-                    st.rerun()
-                except sqlite3.IntegrityError:
-                    st.error(f"❌ {display_name} '{new_name}' already exists!")
-                except Exception as e:
-                    st.error(f"❌ Error adding {display_name}: {str(e)}")
-            else:
-                st.error("Please enter a valid name")
-    conn.close()
-
-def show_video_management():
-    """Show video management interface"""
-    st.markdown("#### Video Management")
-    
-    # Get videos data
-    conn = sqlite3.connect(DB_FILE)
-    videos_df = pd.read_sql_query("""
-        SELECT v.*, s.stream_name, c.class_name, sub.subject_name, ch.chapter_name
-        FROM videos v
-        LEFT JOIN stream_master s ON v.stream_id = s.stream_id
-        LEFT JOIN class_master c ON v.class_id = c.class_id
-        LEFT JOIN subject_master sub ON v.subject_id = sub.subject_id
-        LEFT JOIN chapter_master ch ON v.chapter_id = ch.chapter_id
-        ORDER BY v.created_at DESC
-    """, conn)
-    
-    # Add video button
-    col1, col2 = st.columns([3, 1])
-    with col2:
-        if st.button("➕ Add New Video", type="primary"):
-            st.session_state.add_video = True
-    
-    # Display videos
-    if not videos_df.empty:
-        videos_df = videos_df.reset_index(drop=True)
-        # Add selection column
-        videos_df['Select'] = False
-        #==================================================
-        display_cols = [
-            'Select', 'video_id', 'title', 'description', 'content_description',
-            'stream_name', 'class_name', 'subject_name', 'chapter_name',
-            'video_link', 'view_count', 'is_published', 'created_at'
-        ]
-        #===============================================
-
-        with st.form("video_management_form", clear_on_submit=False):
-            edited_videos = st.data_editor(
-                videos_df[display_cols],
-                #=================================
-                column_config={
-                    "Select": st.column_config.CheckboxColumn("Select", default=False),
-                    "video_id": st.column_config.TextColumn("Video ID", disabled=True),
-                    "title": "Video Title",
-                    "description": "Description",
-                    "content_description": "Content Description",
-                    "stream_name": "Stream",
-                    "class_name": "Class",
-                    "subject_name": "Subject",
-                    "chapter_name": "Chapter",
-                    "video_link": st.column_config.LinkColumn("Video Link", disabled=True),
-                    "view_count": st.column_config.NumberColumn("Views"),
-                    "is_published": st.column_config.CheckboxColumn("Published"),
-                    "created_at": st.column_config.TextColumn("Created", disabled=True)
-                },
-                
-                #=================================
-
-                hide_index=True,
-                use_container_width=True,
-                #disabled=['created_at']
-            )
-            
-            form_submitted = st.form_submit_button("Update Video List")
-        #==========================================================
-        # Process form submission
-        # ...existing code...
-        if form_submitted:
-            # Update any changes made in the data editor for selected videos
-            for idx, row in edited_videos.iterrows():
-                if row['Select']:
-                    video_id = row['video_id']
-                    cursor = conn.cursor()
-                    #============================
-                    cursor.execute("""
-                    UPDATE videos SET 
-                        title = ?, 
-                        description = ?,
-                        content_description = ?,
-                        is_published = ?, 
-                        view_count = ?
-                    WHERE video_id = ?
-                """, (row['title'], row['description'], row['content_description'], row['is_published'], row['view_count'], video_id))
-                    #==============================================
-                    conn.commit()
-            st.success("Video list updated!")
-            st.rerun()
-# ...existing code...
-        # Action buttons (outside the form)
-        #=================================================================
-
-        # ...existing code...
-        selected_videos = edited_videos[edited_videos['Select'] == True]
-        if len(selected_videos) > 1:
-            st.warning("Please select only one video for edit/view/delete.")
-        if not selected_videos.empty:
-            selected_video_id = selected_videos.iloc[0]['video_id']
-            # Always fetch the latest data from the original DataFrame using video_id
-            video_data = videos_df[videos_df['video_id'] == selected_video_id].iloc[0].copy()
-            col1, col2, col3 = st.columns(3)
-            with col1:
-                if st.button("✏️ Edit Selected", key=f"edit_selected_{selected_video_id}"):
-                    # Update editable fields from the edited_videos DataFrame
-                    editable_cols = ['title', 'description', 'content_description', 'video_link', 'is_published']
-                    for col in editable_cols:
-                        if col in edited_videos.columns:
-                            video_data[col] = selected_videos.iloc[0][col]
-                    st.session_state.edit_video = video_data.to_dict()
-            with col2:
-                if st.button("👁️ View Details", key=f"view_selected_{selected_video_id}"):
-                    st.session_state.view_video = video_data
-            with col3: 
-                if st.button("🗑️ Delete Selected", type="secondary"):
-                    cursor = conn.cursor()
-                    cursor.execute("DELETE FROM videos WHERE video_id = ?", (selected_video_id,))
-                    conn.commit()
-                    st.success("Video deleted successfully!")
-                    conn.close()
-                    st.rerun()
-        # ...existing code...
-            #===================================================================
-    else:
-        st.info("No videos uploaded yet.")
-    
-    # Add video form
-    if st.session_state.get('add_video', False):
-        show_add_video_form()
-    
-    # Edit video form
-    if 'edit_video' in st.session_state:
-        show_edit_video_form()
-    
-    # View video details
-    #if 'view_video' in st.session_state:
-    if 'view_video' in st.session_state:
-        show_video_details()
-        del st.session_state.view_video 
-
-    conn.close()
-
-#==============================================
-def show_student_management():
-    """Show student management interface - Robust for empty DB"""
-    st.markdown("#### Student Management")
-    
-    # Get students data
-    conn = sqlite3.connect(DB_FILE)
-    students_df = pd.read_sql_query("""
-        SELECT s.*, sm.stream_name, cm.class_name
-        FROM students s
-        LEFT JOIN stream_master sm ON s.stream_id = sm.stream_id
-        LEFT JOIN class_master cm ON s.class_id = cm.class_id
-        WHERE s.is_active = 1
-        ORDER BY s.created_at DESC
-    """, conn)
-    
-    # Add student button
-    col1, col2 = st.columns([3, 1])
-    with col2:
-        if st.button("➕ Add New Student", type="primary"):
-            st.session_state.add_student = True
-    
-    # Display students only if data exists
-    if not students_df.empty:
-        students_df['Select'] = False
-        display_cols = ['Select','student_id', 'name', 'mobile_no', 'stream_name', 'class_name', 
-                       'city', 'video_enabled', 'last_login']
-        edited_students = st.data_editor(
-            students_df[display_cols],
-            column_config={
-                "Select": st.column_config.CheckboxColumn("Select", default=False),
-                "name": "Name",
-                "mobile_no": "Mobile",
-                "stream_name": "Stream",
-                "class_name": "Class",
-                "city": "City",
-                "video_enabled": st.column_config.CheckboxColumn("Video Access"),
-                "last_login": st.column_config.DatetimeColumn("Last Login")
-            },
-            hide_index=True,
-            use_container_width=True,
-            key="student_data_editor"
-        )
-        selected_students = edited_students[edited_students['Select'] == True]
-        if not selected_students.empty:
-            col1, col2, col3 = st.columns(3)
-            selected_student_id = selected_students.iloc[0]['student_id']
-            student_row = students_df[students_df['student_id'] == selected_student_id].iloc[0]
-            with col1:
-                if st.button("✏️ Edit Selected", key=f"edit_selected_{selected_student_id}"):
-                    st.session_state.edit_student = student_row.to_dict()
-                    st.session_state.add_student = False
-                    st.rerun()
-            with col2:
-                if st.button("🗑️ Delete Selected", key=f"delete_selected_{selected_student_id}", type="secondary"):
-                    conn = sqlite3.connect(DB_FILE)
-                    cursor = conn.cursor()
-                    cursor.execute("UPDATE students SET is_active = 0 WHERE student_id = ?", (selected_student_id,))
-                    conn.commit()
-                    conn.close()
-                    st.success("Student deleted successfully!")
-                    st.rerun()
-    else:
-        st.info("No students found. Please add a new student.")
-    
-    # Add/Edit forms
-    if st.session_state.get('add_student', False):
-        show_add_student_form()
-    if 'edit_student' in st.session_state:
-        show_edit_student_form()
-    conn.close()
-
-
-#============================================
-
-
-
-def show_add_video_form():
-    """Show add video form"""
-    st.markdown("##### Add New Video")
-    
-    with st.form("add_video_form"):
-        title = st.text_input("Video Title*")
-        description = st.text_area("Description")
-        content_description = st.text_area("Content Description")
-        video_link = st.text_input("Video Link*")
-        is_published = st.checkbox("Published", value=True)
-        
-        # Get master data for dropdowns
-        conn = sqlite3.connect(DB_FILE)
-        streams = pd.read_sql_query("SELECT stream_id, stream_name FROM stream_master WHERE is_active = 1", conn)
-        classes = pd.read_sql_query("SELECT class_id, class_name FROM class_master WHERE is_active = 1", conn)
-        subjects = pd.read_sql_query("SELECT subject_id, subject_name FROM subject_master WHERE is_active = 1", conn)
-        chapters = pd.read_sql_query("SELECT chapter_id, chapter_name FROM chapter_master WHERE is_active = 1", conn)
-        
-        col1, col2 = st.columns(2)
-        with col1:
-            stream_options = streams['stream_id'].tolist() if not streams.empty else []
-            selected_stream = st.selectbox(
-                "Stream*",
-                options=stream_options,
-                format_func=lambda x: streams[streams['stream_id'] == x]['stream_name'].iloc[0] if not streams.empty and x in streams['stream_id'].values else str(x)
-            )
-            
-            subject_options = subjects['subject_id'].tolist() if not subjects.empty else []
-            selected_subject = st.selectbox(
-                "Subject*",
-                options=subject_options,
-                format_func=lambda x: subjects[subjects['subject_id'] == x]['subject_name'].iloc[0] if not subjects.empty and x in subjects['subject_id'].values else str(x)
-            )
-        
-        with col2:
-            class_options = classes['class_id'].tolist() if not classes.empty else []
-            selected_class = st.selectbox(
-                "Class*",
-                options=class_options,
-                format_func=lambda x: classes[classes['class_id'] == x]['class_name'].iloc[0] if not classes.empty and x in classes['class_id'].values else str(x)
-            )
-            
-            chapter_options = chapters['chapter_id'].tolist() if not chapters.empty else []
-            selected_chapter = st.selectbox(
-                "Chapter*",
-                options=chapter_options,
-                format_func=lambda x: chapters[chapters['chapter_id'] == x]['chapter_name'].iloc[0] if not chapters.empty and x in chapters['chapter_id'].values else str(x)
-            )
-        
-        col1, col2 = st.columns(2)
-        with col1:
-            if st.form_submit_button("Save Video", type="primary"):
-                if title and video_link and selected_stream and selected_class and selected_subject and selected_chapter:
-                    video_id = generate_video_id()
-                    cursor = conn.cursor()
-                    try:
-                        cursor.execute("""
-                            INSERT INTO videos (
-                                video_id, title, description, class_id, stream_id, subject_id, chapter_id,
-                                content_description, video_link, is_published
-                            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-                        """, (
-                            video_id, title, description, selected_class, selected_stream, selected_subject,
-                            selected_chapter, content_description, video_link, is_published
-                        ))
-                        conn.commit()
-                        st.success("Video added successfully!")
-                        st.session_state.add_video = False
-                        st.rerun()
-                    except sqlite3.IntegrityError:
-                        st.error("Video already exists!")
-                    except Exception as e:
-                        st.error(f"Error adding video: {str(e)}")
-                else:
-                    st.error("Please fill in all required fields with valid data")
-        
-        with col2:
-            if st.form_submit_button("Cancel"):
-                st.session_state.add_video = False
-                st.rerun()
-        
-        conn.close()
-
-#===========================================================
-def show_edit_video_form():
-    """Show edit video form"""
-    video_data = st.session_state.edit_video
-    st.markdown("##### Edit Video")
-    
-    with st.form("edit_video_form"):
-        title = st.text_input("Video Title*", value=video_data['title'])
-        description = st.text_area("Description", value=video_data.get('description', ''))
-        
-        # Get master data for dropdowns
-        conn = sqlite3.connect(DB_FILE)
-        streams = pd.read_sql_query("SELECT stream_id, stream_name FROM stream_master WHERE is_active = 1", conn)
-        classes = pd.read_sql_query("SELECT class_id, class_name FROM class_master WHERE is_active = 1", conn)
-        subjects = pd.read_sql_query("SELECT subject_id, subject_name FROM subject_master WHERE is_active = 1", conn)
-        chapters = pd.read_sql_query("SELECT chapter_id, chapter_name FROM chapter_master WHERE is_active = 1", conn)
-        
-        col1, col2 = st.columns(2)
-        with col1:
-            current_stream_id = video_data['stream_id'] if pd.notna(video_data['stream_id']) else None
-            stream_options = streams['stream_id'].tolist()
-            try:
-                stream_idx = stream_options.index(current_stream_id) if current_stream_id in stream_options else 0
-            except (ValueError, TypeError):
-                stream_idx = 0
-            selected_stream = st.selectbox(
-                "Stream*",
-                options=stream_options,
-                index=stream_idx,
-                format_func=lambda x: streams[streams['stream_id'] == x]['stream_name'].iloc[0] if len(streams[streams['stream_id'] == x]) > 0 else str(x)
-            )
-
-            current_subject_id = video_data['subject_id'] if pd.notna(video_data['subject_id']) else None
-            subject_options = subjects['subject_id'].tolist()
-            try:
-                subject_idx = subject_options.index(current_subject_id) if current_subject_id in subject_options else 0
-            except (ValueError, TypeError):
-                subject_idx = 0
-            selected_subject = st.selectbox(
-                "Subject*",
-                options=subject_options,
-                index=subject_idx,
-                format_func=lambda x: subjects[subjects['subject_id'] == x]['subject_name'].iloc[0] if len(subjects[subjects['subject_id'] == x]) > 0 else str(x)
-            )
-        
-        with col2:
-            current_class_id = video_data['class_id'] if pd.notna(video_data['class_id']) else None
-            class_options = classes['class_id'].tolist()
-            try:
-                class_idx = class_options.index(current_class_id) if current_class_id in class_options else 0
-            except (ValueError, TypeError):
-                class_idx = 0
-            selected_class = st.selectbox(
-                "Class*",
-                options=class_options,
-                index=class_idx,
-                format_func=lambda x: classes[classes['class_id'] == x]['class_name'].iloc[0] if len(classes[classes['class_id'] == x]) > 0 else str(x)
-            )
-
-            current_chapter_id = video_data['chapter_id'] if pd.notna(video_data['chapter_id']) else None
-            chapter_options = chapters['chapter_id'].tolist()
-            try:
-                chapter_idx = chapter_options.index(current_chapter_id) if current_chapter_id in chapter_options else 0
-            except (ValueError, TypeError):
-                chapter_idx = 0
-            selected_chapter = st.selectbox(
-                "Chapter*",
-                options=chapter_options,
-                index=chapter_idx,
-                format_func=lambda x: chapters[chapters['chapter_id'] == x]['chapter_name'].iloc[0] if len(chapters[chapters['chapter_id'] == x]) > 0 else str(x)
-            )
-        
-        content_description = st.text_area("Content Description", value=video_data.get('content_description', ''))
-        video_link = st.text_input("Video Link*", value=video_data['video_link'])
-        is_published = st.checkbox("Published", value=bool(video_data['is_published']))
-        
-        col1, col2 = st.columns(2)
-        with col1:
-            if st.form_submit_button("Update Video", type="primary"):
-                if title and video_link:
-                    cursor = conn.cursor()
-                    cursor.execute("""
-                        UPDATE videos SET 
-                        title = ?, description = ?, class_id = ?, stream_id = ?,
-                        subject_id = ?, chapter_id = ?, content_description = ?, 
-                        video_link = ?, is_published = ?, updated_at = CURRENT_TIMESTAMP
-                        WHERE video_id = ?
-                    """, (
-                        title, description, selected_class, selected_stream,
-                        selected_subject, selected_chapter, content_description,
-                        video_link, is_published, video_data['video_id']
-                    ))
-                    conn.commit()
-                    st.success("Video updated successfully!")
-                    del st.session_state.edit_video
-                    st.rerun()
-                else:
-                    st.error("Please fill in all required fields")
-        with col2:
-            if st.form_submit_button("Cancel"):
-                del st.session_state.edit_video
-                st.rerun()
-        conn.close()
-
-#=========================================================
-def show_video_details():
-            """Show video details"""
-            video_data = st.session_state.view_video
-            st.markdown("##### Video Details")
-            
-            col1, col2 = st.columns(2)
-            with col1:
-                st.write(f"**Title:** {video_data['title']}")
-                st.write(f"**Stream:** {video_data['stream_name']}")
-                st.write(f"**Subject:** {video_data['subject_name']}")
-                st.write(f"**Views:** {video_data['view_count']}")
-            
-            with col2:
-                st.write(f"**Class:** {video_data['class_name']}")
-                st.write(f"**Chapter:** {video_data['chapter_name']}")
-                st.write(f"**Published:** {'Yes' if video_data['is_published'] else 'No'}")
-                st.write(f"**Created:** {video_data['created_at']}")
-            
-            if video_data.get('description'):
-                st.write(f"**Description:** {video_data['description']}")
-            
-            if video_data.get('content_description'):
-                st.write(f"**Content:** {video_data['content_description']}")
-            
-            st.write(f"**Video Link:** {video_data['video_link']}")
-            
-            if st.button("Close Details"):
-                del st.session_state.view_video
-                st.rerun()
-
-def show_add_student_form():
-    """Show add student form"""
-    st.markdown("##### Add New Student")
-    
-    with st.form("add_student_form"):
-        col1, col2 = st.columns(2)
-        
-        with col1:
-            name = st.text_input("Full Name*")
-            college_name = st.text_input("College Name")
-            address_1 = st.text_input("Address Line 1")
-            address_2 = st.text_input("Address Line 2")
-            city = st.text_input("City")
-            pin_code = st.text_input("Pin Code")
-            mobile_no = st.text_input("Mobile Number*")
-        
-        with col2:
-            address_3 = st.text_input("Address Line 3")
-            address_4 = st.text_input("Address Line 4")
-            state = st.text_input("State")
-            dob = st.date_input("Date of Birth")
-            
-            # Get master data for dropdowns
-            conn = sqlite3.connect(DB_FILE)
-            streams = pd.read_sql_query("SELECT stream_id, stream_name FROM stream_master WHERE is_active = 1", conn)
-            classes = pd.read_sql_query("SELECT class_id, class_name FROM class_master WHERE is_active = 1", conn)
-            
-            stream_options = streams['stream_id'].tolist() if not streams.empty else []
-            selected_stream = st.selectbox(
-                "Stream*",
-                options=stream_options,
-                format_func=lambda x: streams[streams['stream_id'] == x]['stream_name'].iloc[0] if not streams.empty and x in streams['stream_id'].values else str(x)
-            )
-
-            class_options = classes['class_id'].tolist() if not classes.empty else []
-            selected_class = st.selectbox(
-                "Class*",
-                options=class_options,
-                format_func=lambda x: classes[classes['class_id'] == x]['class_name'].iloc[0] if not classes.empty and x in classes['class_id'].values else str(x)
-            )
-            conn.close()
-        
-        col1, col2 = st.columns(2)
-        with col1:
-            if st.form_submit_button("Save Student", type="primary"):
-                if name and mobile_no and is_valid_mobile(mobile_no) and selected_stream and selected_class:
-                    conn = sqlite3.connect(DB_FILE)
-                    cursor = conn.cursor()
-                    student_id = generate_id("STU", "students", "student_id")
-                    try:
-                        cursor.execute("""
-                            INSERT INTO students (
-                                student_id, name, college_name, address_1, address_2, address_3, address_4,
-                                city, state, pin_code, dob, stream_id, class_id, mobile_no, video_enabled, is_active
-                            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-                        """, (
-                            student_id, name, college_name, address_1, address_2, address_3, address_4,
-                            city, state, pin_code, dob, selected_stream, selected_class, mobile_no, True, True
-                        ))
-                        conn.commit()
-                        st.success("Student added successfully!")
-                        st.session_state.add_student = False
-                        st.rerun()
-                    except sqlite3.IntegrityError:
-                        st.error("Mobile number already exists!")
-                    except Exception as e:
-                        st.error(f"Error adding student: {str(e)}")
-                    conn.close()
-                else:
-                    st.error("Please fill in all required fields with valid data")
-        with col2:
-            if st.form_submit_button("Cancel"):
-                st.session_state.add_student = False
-                st.rerun()
-
-    #=====================================================
-        
-
-#=======================================================================================================================================
-def show_student_management():
-    """Show student management interface - Robust for empty DB"""
-    st.markdown("#### Student Management")
-    
-    # Get students data
-    conn = sqlite3.connect(DB_FILE)
-    students_df = pd.read_sql_query("""
-        SELECT s.*, sm.stream_name, cm.class_name
-        FROM students s
-        LEFT JOIN stream_master sm ON s.stream_id = sm.stream_id
-        LEFT JOIN class_master cm ON s.class_id = cm.class_id
-        WHERE s.is_active = 1
-        ORDER BY s.created_at DESC
-    """, conn)
-    
-    # Add student button
-    col1, col2 = st.columns([3, 1])
-    with col2:
-        if st.button("➕ Add New Student", type="primary"):
-            st.session_state.add_student = True
-    
-    # Display students only if data exists
-    if not students_df.empty:
-        students_df['Select'] = False
-        display_cols = ['Select','student_id', 'name', 'mobile_no', 'stream_name', 'class_name', 
-                       'city', 'video_enabled', 'last_login']
-        edited_students = st.data_editor(
-            students_df[display_cols],
-            column_config={
-                "Select": st.column_config.CheckboxColumn("Select", default=False),
-                "name": "Name",
-                "mobile_no": "Mobile",
-                "stream_name": "Stream",
-                "class_name": "Class",
-                "city": "City",
-                "video_enabled": st.column_config.CheckboxColumn("Video Access"),
-                "last_login": st.column_config.DatetimeColumn("Last Login")
-            },
-            hide_index=True,
-            use_container_width=True,
-            key="student_data_editor"
-        )
-        selected_students = edited_students[edited_students['Select'] == True]
-        if not selected_students.empty:
-            col1, col2, col3 = st.columns(3)
-            selected_student_id = selected_students.iloc[0]['student_id']
-            student_row = students_df[students_df['student_id'] == selected_student_id].iloc[0]
-            with col1:
-                if st.button("✏️ Edit Selected", key=f"edit_selected_{selected_student_id}"):
-                    st.session_state.edit_student = student_row.to_dict()
-                    st.session_state.add_student = False
-                    st.rerun()
-            with col2:
-                if st.button("🗑️ Delete Selected", key=f"delete_selected_{selected_student_id}", type="secondary"):
-                    conn = sqlite3.connect(DB_FILE)
-                    cursor = conn.cursor()
-                    cursor.execute("UPDATE students SET is_active = 0 WHERE student_id = ?", (selected_student_id,))
-                    conn.commit()
-                    conn.close()
-                    st.success("Student deleted successfully!")
-                    st.rerun()
-    else:
-        st.info("No students found. Please add a new student.")
-    
-    # Add/Edit forms
-    if st.session_state.get('add_student', False):
-        show_add_student_form()
-    if 'edit_student' in st.session_state:
-        show_edit_student_form()
-    conn.close()
-
-#===============================================================================================
-def show_add_student_form():
-    """Show add student form"""
-    st.markdown("##### Add New Student")
-    
-    with st.form("add_student_form"):
-        col1, col2 = st.columns(2)
-        
-        with col1:
-            name = st.text_input("Full Name*")
-            college_name = st.text_input("College Name")
-            address_1 = st.text_input("Address Line 1")
-            address_2 = st.text_input("Address Line 2")
-            city = st.text_input("City")
-            pin_code = st.text_input("Pin Code")
-            mobile_no = st.text_input("Mobile Number*")
-        
-        with col2:
-            address_3 = st.text_input("Address Line 3")
-            address_4 = st.text_input("Address Line 4")
-            state = st.text_input("State")
-            dob = st.date_input("Date of Birth")
-            
-            # Get master data for dropdowns
-            conn = sqlite3.connect(DB_FILE)
-            streams = pd.read_sql_query("SELECT stream_id, stream_name FROM stream_master WHERE is_active = 1", conn)
-            classes = pd.read_sql_query("SELECT class_id, class_name FROM class_master WHERE is_active = 1", conn)
-            
-            # FIX: Convert to Python int to avoid int64 issues
-            #==============================================
-             # ...existing code...
-            stream_options = streams['stream_id'].tolist() if not streams.empty else []
-            selected_stream = st.selectbox(
-                "Stream*",
-                options=stream_options,
-                format_func=lambda x: streams[streams['stream_id'] == x]['stream_name'].iloc[0] if not streams.empty and x in streams['stream_id'].values else str(x)
-            )
-
-            class_options = classes['class_id'].tolist() if not classes.empty else []
-            selected_class = st.selectbox(
-                "Class*",
-                options=class_options,
-                format_func=lambda x: classes[classes['class_id'] == x]['class_name'].iloc[0] if not classes.empty and x in classes['class_id'].values else str(x)
-            )
-# ...existing code...
-            #==========================================
-
-            video_enabled = st.checkbox("Enable Video Access", value=True)
-        
-        col1, col2 = st.columns(2)
-        with col1:
-            # This submit button was already present - no fix needed for Error 1 here
-            if st.form_submit_button("Save Student", type="primary"):
-                if name and mobile_no and is_valid_mobile(mobile_no) and selected_stream and selected_class:
-                    student_id = generate_id("STU", "students", "student_id")
-                    
-                    cursor = conn.cursor()
-                    try:
-                        cursor.execute("""
-                            INSERT INTO students (
-                                student_id, name, college_name, address_1, address_2, 
-                                address_3, address_4, city, state, pin_code, dob, 
-                                stream_id, class_id, mobile_no, video_enabled
-                            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-                        """, (
-                            student_id, name, college_name, address_1, address_2,
-                            address_3, address_4, city, state, pin_code, dob,
-                            selected_stream, selected_class, mobile_no, video_enabled
-                        ))
-                        conn.commit()
-                        
-                        st.success("Student added successfully!")
-                        st.session_state.add_student = False
-                        st.rerun()
-                    except sqlite3.IntegrityError:
-                        st.error("Mobile number already registered!")
-                else:
-                    st.error("Please fill in all required fields with valid data")
-        
-        with col2:
-            if st.form_submit_button("Cancel"):
-                st.session_state.add_student = False
-                st.rerun()
-    
-    conn.close()
-
-
-#===============================================================================================================
-def show_edit_student_form():
-    """Show edit student form"""
-    student_data = st.session_state.edit_student
-    st.markdown("##### Edit Student")
-    
-    with st.form("edit_student_form"):
-        col1, col2 = st.columns(2)
-        
-        with col1:
-            name = st.text_input("Full Name*", value=student_data['name'])
-            college_name = st.text_input("College Name", value=student_data.get('college_name', ''))
-            address_1 = st.text_input("Address Line 1", value=student_data.get('address_1', ''))
-            address_2 = st.text_input("Address Line 2", value=student_data.get('address_2', ''))
-            city = st.text_input("City", value=student_data.get('city', ''))
-            pin_code = st.text_input("Pin Code", value=student_data.get('pin_code', ''))
-            mobile_no = st.text_input("Mobile Number*", value=student_data['mobile_no'])
-        
-        with col2:
-            address_3 = st.text_input("Address Line 3", value=student_data.get('address_3', ''))
-            address_4 = st.text_input("Address Line 4", value=student_data.get('address_4', ''))
-            state = st.text_input("State", value=student_data.get('state', ''))
-            
-            # Handle DOB
-            dob_value = student_data.get('dob')
-            if dob_value:
-                try:
-                    if isinstance(dob_value, str):
-                        dob_value = datetime.strptime(dob_value, '%Y-%m-%d').date()
-                    dob = st.date_input("Date of Birth", value=dob_value)
-                except:
-                    dob = st.date_input("Date of Birth")
-            else:
-                dob = st.date_input("Date of Birth")
-            
-            # Get master data for dropdowns
-            conn = sqlite3.connect(DB_FILE)
-            streams = pd.read_sql_query("SELECT stream_id, stream_name FROM stream_master WHERE is_active = 1", conn)
-            classes = pd.read_sql_query("SELECT class_id, class_name FROM class_master WHERE is_active = 1", conn)
-            
-            # FIX: Convert numpy int64 to Python int and handle index properly
-            #===============================================
-            
-            # ...existing code...
-            current_stream_id = student_data['stream_id'] if pd.notna(student_data['stream_id']) else None
-            stream_options = streams['stream_id'].tolist()
-
-            try:
-                stream_idx = stream_options.index(current_stream_id) if current_stream_id in stream_options else 0
-            except (ValueError, TypeError):
-                stream_idx = 0
-
-            selected_stream = st.selectbox(
-                "Stream*",
-                options=stream_options,
-                index=stream_idx,
-                format_func=lambda x: streams[streams['stream_id'] == x]['stream_name'].iloc[0] if len(streams[streams['stream_id'] == x]) > 0 else str(x)
-            )
-
-            current_class_id = student_data['class_id'] if pd.notna(student_data['class_id']) else None
-            class_options = classes['class_id'].tolist()
-
-            try:
-                class_idx = class_options.index(current_class_id) if current_class_id in class_options else 0
-            except (ValueError, TypeError):
-                class_idx = 0
-
-            selected_class = st.selectbox(
-                "Class*",
-                options=class_options,
-                index=class_idx,
-                format_func=lambda x: classes[classes['class_id'] == x]['class_name'].iloc[0] if len(classes[classes['class_id'] == x]) > 0 else str(x)
-            )
-            # ...existing code...
-
-            #==================================================
-            video_enabled = st.checkbox("Enable Video Access", value=bool(student_data['video_enabled']))
-        
-        col1, col2 = st.columns(2)
-        with col1:
-            # This submit button was already present - no fix needed for Error 1 here
-            if st.form_submit_button("Update Student", type="primary"):
-                if name and mobile_no and is_valid_mobile(mobile_no):
-                    cursor = conn.cursor()
-                    try:
-                        cursor.execute("""
-                            UPDATE students SET 
-                            name = ?, college_name = ?, address_1 = ?, address_2 = ?,
-                            address_3 = ?, address_4 = ?, city = ?, state = ?, pin_code = ?,
-                            dob = ?, stream_id = ?, class_id = ?, mobile_no = ?, video_enabled = ?
-                            WHERE student_id = ?
-                        """, (
-                            name, college_name, address_1, address_2, address_3, address_4,
-                            city, state, pin_code, dob, selected_stream, selected_class,
-                            mobile_no, video_enabled, student_data['student_id']
-                        ))
-                        conn.commit()
-                        
-                        st.success("Student updated successfully!")
-                        del st.session_state.edit_student
-                        st.rerun()
-                    except sqlite3.IntegrityError:
-                        st.error("Mobile number already exists for another student!")
-                else:
-                    st.error("Please fill in all required fields with valid data")
-        
-        with col2:
-            if st.form_submit_button("Cancel"):
-                del st.session_state.edit_student
-                st.rerun()
-    
-    conn.close()
-
-
-    #==========================================================================================================
-
-def show_student_progress():
-    """Show individual student progress"""
-    student_data = st.session_state.view_student_progress
-    st.markdown(f"##### Progress for {student_data['name']}")
-    
-    conn = sqlite3.connect(DB_FILE)
-    
-    # Get student progress
-    progress_df = pd.read_sql_query("""
-        SELECT up.*, v.title, v.video_link, sm.stream_name, cm.class_name, 
-               subm.subject_name, chm.chapter_name
-        FROM user_progress up
-        JOIN videos v ON up.video_id = v.video_id
-        LEFT JOIN stream_master sm ON v.stream_id = sm.stream_id
-        LEFT JOIN class_master cm ON v.class_id = cm.class_id
-        LEFT JOIN subject_master subm ON v.subject_id = subm.subject_id
-        LEFT JOIN chapter_master chm ON v.chapter_id = chm.chapter_id
-        WHERE up.student_id = ?
-        ORDER BY up.last_watched DESC
-    """, conn, params=(student_data['student_id'],))
-    
-    if not progress_df.empty:
-        # Summary stats
-        col1, col2, col3, col4 = st.columns(4)
-        with col1:
-            st.metric("Videos Watched", len(progress_df))
-        with col2:
-            completed = len(progress_df[progress_df['is_completed'] == 1])
-            st.metric("Completed", completed)
-        with col3:
-            avg_completion = progress_df['completion_percentage'].mean()
-            st.metric("Avg Completion", f"{avg_completion:.1f}%")
-        with col4:
-            total_watch_time = progress_df['watched_duration'].sum()
-            st.metric("Watch Time", f"{total_watch_time//60}m")
-        
-        # Progress details
-        st.markdown("##### Detailed Progress")
-        display_progress = progress_df[[
-            'title', 'subject_name', 'chapter_name', 'completion_percentage',
-            'is_completed', 'watch_count', 'last_watched'
-        ]].copy()
-        
-        st.dataframe(
-            display_progress,
-            column_config={
-                "title": "Video Title",
-                "subject_name": "Subject",
-                "chapter_name": "Chapter",
-                "completion_percentage": st.column_config.ProgressColumn(
-                    "Progress",
-                    min_value=0,
-                    max_value=100,
-                    format="%.1f%%"
-                ),
-                "is_completed": st.column_config.CheckboxColumn("Completed"),
-                "watch_count": st.column_config.NumberColumn("Views"),
-                "last_watched": st.column_config.DatetimeColumn("Last Watched")
-            },
-            hide_index=True,
-            use_container_width=True
-        )
-    else:
-        st.info("No video progress found for this student.")
-    
-    if st.button("Close Progress View"):
-        del st.session_state.view_student_progress
-        st.rerun()
-    
-    conn.close()
-
-def show_analytics_dashboard():
-    """Show analytics and statistics"""
-    st.markdown("#### Analytics Dashboard")
-    
-    conn = sqlite3.connect(DB_FILE)
-    
-    # Overall statistics
-    col1, col2, col3, col4 = st.columns(4)
-    
-    with col1:
-        cursor = conn.cursor()
-        cursor.execute("SELECT COUNT(*) FROM videos WHERE is_published = 1")
-        total_videos = cursor.fetchone()[0]
-        st.metric("Published Videos", total_videos)
-    
-    with col2:
-        cursor.execute("SELECT COUNT(*) FROM students WHERE is_active = 1 AND video_enabled = 1")
-        active_students = cursor.fetchone()[0]
-        st.metric("Active Students", active_students)
-    
-    with col3:
-        cursor.execute("SELECT SUM(view_count) FROM videos")
-        total_views = cursor.fetchone()[0] or 0
-        st.metric("Total Views", total_views)
-    
-    with col4:
-        cursor.execute("SELECT COUNT(DISTINCT student_id) FROM user_progress WHERE last_watched > date('now', '-7 days')")
-        weekly_active = cursor.fetchone()[0]
-        st.metric("Weekly Active Users", weekly_active)
-    
-    # Most watched videos
-    st.markdown("##### Most Watched Videos")
-    most_watched = pd.read_sql_query("""
-        SELECT v.title, v.view_count, sm.stream_name, cm.class_name, subm.subject_name
-        FROM videos v
-        LEFT JOIN stream_master sm ON v.stream_id = sm.stream_id
-        LEFT JOIN class_master cm ON v.class_id = cm.class_id
-        LEFT JOIN subject_master subm ON v.subject_id = subm.subject_id
-        WHERE v.is_published = 1
-        ORDER BY v.view_count DESC
-        LIMIT 10
-    """, conn)
-    
-    if not most_watched.empty:
-        st.dataframe(most_watched, use_container_width=True)
-    else:
-        st.info("No video view data available.")
-    
-    # Student engagement
-    st.markdown("##### Student Engagement")
-    engagement = pd.read_sql_query("""
-        SELECT s.name, s.mobile_no, COUNT(up.video_id) as videos_watched,
-               AVG(up.completion_percentage) as avg_completion,
-               MAX(up.last_watched) as last_activity
-        FROM students s
-        LEFT JOIN user_progress up ON s.student_id = up.student_id
-        WHERE s.is_active = 1 AND s.video_enabled = 1
-        GROUP BY s.student_id
-        ORDER BY videos_watched DESC
-        LIMIT 10
-    """, conn)
-    
-    if not engagement.empty:
-        st.dataframe(
-            engagement,
-            column_config={
-                "name": "Student Name",
-                "mobile_no": "Mobile",
-                "videos_watched": st.column_config.NumberColumn("Videos Watched"),
-                "avg_completion": st.column_config.NumberColumn("Avg Completion %", format="%.1f"),
-                "last_activity": st.column_config.DatetimeColumn("Last Activity")
-            },
-            hide_index=True,
-            use_container_width=True
-        )
-    else:
-        st.info("No student engagement data available.")
-    
-    # Subject-wise statistics
-    st.markdown("##### Subject-wise Video Distribution")
-    subject_stats = pd.read_sql_query("""
-        SELECT subm.subject_name, COUNT(v.video_id) as video_count,
-               SUM(v.view_count) as total_views
-        FROM videos v
-        JOIN subject_master subm ON v.subject_id = subm.subject_id
-        WHERE v.is_published = 1
-        GROUP BY v.subject_id
-        ORDER BY video_count DESC
-    """, conn)
-    
-    if not subject_stats.empty:
-        col1, col2 = st.columns(2)
-        with col1:
-            st.bar_chart(subject_stats.set_index('subject_name')['video_count'])
-        with col2:
-            st.bar_chart(subject_stats.set_index('subject_name')['total_views'])
-    else:
-        st.info("No subject statistics available.")
-    
-    conn.close()
-
-#===========================================================================
-def show_admin_settings():
-    """Show admin settings including password change"""
-    st.markdown("#### Admin Settings")
-    
-    # Get current admin info
-    conn = sqlite3.connect(DB_FILE)
-    cursor = conn.cursor()
-    cursor.execute(
-        "SELECT username, email, created_at, last_login FROM admin_users WHERE username = ?",
-        (st.session_state.user_id,)
-    )
-    admin_info = cursor.fetchone()
-    
-    if not admin_info:
-        st.error("Admin information not found.")
-        conn.close()
-        return
-    
-    username, email, created_at, last_login = admin_info
-    
-    # Admin Profile Section
-    st.markdown("##### Admin Profile Information")
-    col1, col2 = st.columns(2)
-    
-    with col1:
-        st.write(f"**Username:** {username}")
-        st.write(f"**Email:** {email or 'Not provided'}")
-    
-    with col2:
-        st.write(f"**Account Created:** {created_at[:19] if created_at else 'Unknown'}")
-        st.write(f"**Last Login:** {last_login[:19] if last_login else 'Never'}")
-    
-    st.markdown("---")
-    
-    # Password Change Section
-    st.markdown("##### Change Password")
-    
-    with st.form("change_password_form"):
-        current_password = st.text_input("Current Password", type="password")
-        new_password = st.text_input("New Password", type="password")
-        confirm_password = st.text_input("Confirm New Password", type="password")
-        
-        # Password strength indicator
-        if new_password:
-            strength_score = 0
-            strength_messages = []
-            
-            if len(new_password) >= 8:
-                strength_score += 1
-            else:
-                strength_messages.append("At least 8 characters")
-            
-            if any(c.isupper() for c in new_password):
-                strength_score += 1
-            else:
-                strength_messages.append("At least one uppercase letter")
-            
-            if any(c.islower() for c in new_password):
-                strength_score += 1
-            else:
-                strength_messages.append("At least one lowercase letter")
-            
-            if any(c.isdigit() for c in new_password):
-                strength_score += 1
-            else:
-                strength_messages.append("At least one number")
-            
-            if any(c in "!@#$%^&*()_+-=[]{}|;:,.<>?" for c in new_password):
-                strength_score += 1
-            else:
-                strength_messages.append("At least one special character")
-            
-            # Display strength
-            if strength_score < 2:
-                st.error("❌ Weak password")
-            elif strength_score < 4:
-                st.warning("⚠️ Medium password")
-            else:
-                st.success("✅ Strong password")
-            
-            if strength_messages:
-                st.info("Password should have: " + ", ".join(strength_messages))
-        
-        submit_password = st.form_submit_button("🔐 Change Password", type="primary")
-        
-        if submit_password:
-            if not all([current_password, new_password, confirm_password]):
-                st.error("❌ Please fill in all password fields")
-            elif new_password != confirm_password:
-                st.error("❌ New passwords do not match")
-            elif len(new_password) < 6:
-                st.error("❌ Password must be at least 6 characters long")
-            else:
-                # Verify current password
-                cursor.execute(
-                    "SELECT password_hash FROM admin_users WHERE username = ?",
-                    (username,)
-                )
-                current_hash = cursor.fetchone()
-                
-                if current_hash and verify_password(current_password, current_hash[0]):
-                    # Update password
-                    new_hash = hash_password(new_password)
-                    cursor.execute(
-                        "UPDATE admin_users SET password_hash = ? WHERE username = ?",
-                        (new_hash, username)
-                    )
-                    conn.commit()
-                    st.success("✅ Password changed successfully!")
-                    
-                    # Clear form by rerunning
-                    time.sleep(2)
-                    st.rerun()
-                else:
-                    st.error("❌ Current password is incorrect")
-    
-    st.markdown("---")
-    
-    # Email Update Section
-    st.markdown("##### Update Email Address")
-    
-    with st.form("update_email_form"):
-        new_email = st.text_input("New Email Address", value=email or "", placeholder="admin@example.com")
-        
-        if st.form_submit_button("📧 Update Email", type="secondary"):
-            if new_email and is_valid_email(new_email):
-                cursor.execute(
-                    "UPDATE admin_users SET email = ? WHERE username = ?",
-                    (new_email, username)
-                )
-                conn.commit()
-                st.success("✅ Email updated successfully!")
-                time.sleep(1)
-                st.rerun()
-            elif new_email:
-                st.error("❌ Please enter a valid email address")
-            else:
-                st.error("❌ Please enter an email address")
-    
-    st.markdown("---")
-    
-    # System Information
-    st.markdown("##### System Information")
-    
-    # Database statistics
-    cursor.execute("SELECT COUNT(*) FROM admin_users WHERE is_active = 1")
-    active_admins = cursor.fetchone()[0]
-    
-    cursor.execute("SELECT COUNT(*) FROM students WHERE is_active = 1")
-    total_students = cursor.fetchone()[0]
-    
-    cursor.execute("SELECT COUNT(*) FROM videos WHERE is_published = 1")
-    total_videos = cursor.fetchone()[0]
-    
-    cursor.execute("SELECT name FROM sqlite_master WHERE type='table'")
-    tables = cursor.fetchall()
-    
-    col1, col2, col3, col4 = st.columns(4)
-    with col1:
-        st.metric("Active Admins", active_admins)
-    with col2:
-        st.metric("Total Students", total_students)
-    with col3:
-        st.metric("Published Videos", total_videos)
-    with col4:
-        st.metric("Database Tables", len(tables))
-    
-    # Backup/Export Option (placeholder for future enhancement)
-    st.markdown("##### Database Management")
-    col1, col2 = st.columns(2)
-    
-    with col1:
-        if st.button("📊 Export Analytics", help="Export system analytics data"):
-            st.info("📋 Analytics export functionality coming soon...")
-    
-    with col2:
-        if st.button("🔄 System Status", help="Check system health"):
-            st.success("✅ System is running normally")
-            st.info(f"📅 Current server time: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
-    
-    # Security Settings
-    st.markdown("---")
-    st.markdown("##### Security Settings")
-    
-    # Session timeout setting
-    current_timeout = APP_CONFIG.get('auto_logout_time', 1800)
-    
-    with st.form("security_settings_form"):
-        st.write("**Session Timeout Settings**")
-        timeout_minutes = st.slider(
-            "Auto-logout after (minutes)", 
-            min_value=15, 
-            max_value=120, 
-            value=current_timeout//60,
-            help="Users will be automatically logged out after this period of inactivity"
-        )
-        
-        if st.form_submit_button("⚙️ Update Security Settings"):
-            # Update the timeout (in a real application, this would be saved to a config file)
-            APP_CONFIG['auto_logout_time'] = timeout_minutes * 60
-            st.success(f"✅ Session timeout updated to {timeout_minutes} minutes")
-            st.info("ℹ️ Note: This setting will reset when the application restarts")
-    
-    conn.close()
-
-#===========================================================================
-
-
-# =============================================================================
-# STUDENT INTERFACE
-# =============================================================================
-
-def show_student_interface():
-    """Display student interface with video library and progress"""
-    if check_session_timeout():
-        return
-    
-    update_activity()
-    
-    student_name = st.session_state.user_data.get('name', 'Student')
-    st.markdown(f"### Welcome, {student_name}!")
-    
-    # Logout button
-    col1, col2, col3 = st.columns([1, 1, 1])
-    with col3:
-        if st.button("🚪 Logout", type="secondary"):
-            if st.session_state.get('confirm_logout', False):
-                logout_user()
-                st.success("Logged out successfully!")
-                st.rerun()
-            else:
-                st.session_state.confirm_logout = True
-                st.rerun()
-    
-    if st.session_state.get('confirm_logout', False):
-        st.warning("Are you sure you want to logout?")
-        col1, col2 = st.columns(2)
-        with col1:
-            if st.button("Yes, Logout"):
-                logout_user()
-                st.success("Logged out successfully!")
-                st.rerun()
-        with col2:
-            if st.button("Cancel"):
-                st.session_state.confirm_logout = False
-                st.rerun()
-        return
-    
-    # Navigation tabs
-    tab_labels = [
-        "📚 Video Library", 
-        "▶️ Video Player", 
-        "📊 My Progress", 
-        "👤 Profile"
-    ]
-    active_tab = st.session_state.get('active_tab', 0)
-    tabs = st.tabs(tab_labels)
-    
-    with tabs[0]:
-        show_video_library()
-    with tabs[1]:
-        show_video_player()
-    with tabs[2]:
-        show_my_progress()
-    with tabs[3]:
-        show_student_profile()
-    
-    # After watching or selecting a video, set active_tab to 1 (Video Player)
-    if st.session_state.get('current_video') and active_tab != 1:
-        st.session_state.active_tab = 1
-        st.rerun()
-#=================================================================
-
-def show_video_library():
-    """Show video library for students (filtered by stream and class) with Watch button"""
-    st.markdown("#### Video Library")
-    conn = sqlite3.connect(DB_FILE)
-    cursor = conn.cursor()
-    cursor.execute(
-        "SELECT stream_id, class_id FROM students WHERE student_id = ?",
-        (st.session_state.user_id,)
-    )
-    student_info = cursor.fetchone()
-    if not student_info:
-        st.error("Student information not found.")
-        return
-    student_stream, student_class = student_info
-
-    videos_df = pd.read_sql_query("""
-        SELECT v.video_id, v.title, v.description, v.content_description, subm.subject_name, chm.chapter_name, v.video_link
-        FROM videos v
-        JOIN subject_master subm ON v.subject_id = subm.subject_id
-        JOIN chapter_master chm ON v.chapter_id = chm.chapter_id
-        WHERE v.stream_id = ? AND v.class_id = ? AND v.is_published = 1
-        ORDER BY v.created_at DESC
-    """, conn, params=(student_stream, student_class))
-
-    if not videos_df.empty:
-        st.markdown(f"**Found {len(videos_df)} videos for your Stream and Class**")
-        for idx, row in videos_df.iterrows():
-            col1, col2, col3, col4 = st.columns([2,2,2,2])
-            with col1:
-                st.write(f"**Subject:** {row['subject_name']}")
-            with col2:
-                st.write(f"**Chapter:** {row['chapter_name']}")
-            with col3:
-                st.write(f"**Title:** {row['title']}")
-            with col4:
-                if st.button("▶️ Watch", key=f"watch_{row['video_id']}"):
-                    st.session_state.current_video = {
-                        "video_id": row['video_id'],
-                        "title": row['title'],
-                        "description": row['description'],
-                        "content_description": row['content_description'],
-                        "subject_name": row['subject_name'],
-                        "chapter_name": row['chapter_name'],
-                        "video_link": row['video_link']
-                    }
-                    st.session_state.screen = 'student_interface'
-                    st.session_state.active_tab = 1  # Set to Video Player tab
-                    st.rerun()
-    else:
-        st.info("No videos found for your stream and class.")
-    conn.close()
-
-#==========================================================
-
-def show_video_player():
-    """Show video player interface"""
-    st.markdown("#### Video Player")
-    
-    if st.session_state.current_video is None:
-        st.info("Please select a video from the Video Library to start watching.")
-        return
-    
-    video = st.session_state.current_video
-    
-    # Video details
-    st.markdown(f"### {video['title']}")
-    st.markdown(f"**Subject:** {video['subject_name']} | **Chapter:** {video['chapter_name']}")
-    
-    if video['description']:
-        with st.expander("📖 Description"):
-            st.markdown(video['description'])
-    
-    if video['content_description']:
-        with st.expander("📝 Content Details"):
-            st.markdown(video['content_description'])
-    
-    # Video player
-    video_url = video['video_link']
-    
-    # Extract video ID for YouTube/Vimeo embedding
-    if "youtube.com" in video_url or "youtu.be" in video_url:
-        if "youtu.be" in video_url:
-            video_id = video_url.split("/")[-1].split("?")[0]
-        else:
-            video_id = video_url.split("v=")[1].split("&")[0]
-        
-        embed_url = f"https://www.youtube.com/embed/{video_id}"
-        st.markdown(f"""
-            <iframe width="100%" height="500" src="{embed_url}" 
-            frameborder="0" allowfullscreen></iframe>
-        """, unsafe_allow_html=True)
-    
-    elif "vimeo.com" in video_url:
-        video_id = video_url.split("/")[-1]
-        embed_url = f"https://player.vimeo.com/video/{video_id}"
-        st.markdown(f"""
-            <iframe width="100%" height="500" src="{embed_url}" 
-            frameborder="0" allowfullscreen></iframe>
-        """, unsafe_allow_html=True)
-    
-    else:
-        st.video(video_url)
-    
-    # Progress tracking
-    col1, col2, col3 = st.columns(3)
-    
-    with col1:
-        if st.button("✅ Mark as Completed"):
-            update_video_progress(video['video_id'], 100, True)
-            st.success("Video marked as completed!")
-            st.rerun()
-    
-    with col2:
-        progress = st.slider("Set Progress", 0, 100, 
-                           value=int(video.get('completion_percentage', 0)))
-        if st.button("💾 Save Progress"):
-            is_completed = progress == 100
-            update_video_progress(video['video_id'], progress, is_completed)
-            st.success(f"Progress saved: {progress}%")
-            st.rerun()
-    
-    with col3:
-        if st.button("⬅️ Back to Library"):
-            st.session_state.current_video = None
-            st.rerun()
-
-def update_video_progress(video_id: str, completion_percentage: float, is_completed: bool):
-    """Update video progress in database"""
-    conn = sqlite3.connect(DB_FILE)
-    cursor = conn.cursor()
-    
-    # Check if progress record exists
-    cursor.execute(
-        "SELECT id FROM user_progress WHERE student_id = ? AND video_id = ?",
-        (st.session_state.user_id, video_id)
-    )
-    
-    if cursor.fetchone():
-        # Update existing record
-        cursor.execute("""
-            UPDATE user_progress 
-            SET completion_percentage = ?, is_completed = ?, 
-                last_watched = CURRENT_TIMESTAMP, watch_count = watch_count + 1
-            WHERE student_id = ? AND video_id = ?
-        """, (completion_percentage, is_completed, st.session_state.user_id, video_id))
-    else:
-        # Create new record
-        cursor.execute("""
-            INSERT INTO user_progress 
-            (student_id, video_id, completion_percentage, is_completed, watch_count)
-            VALUES (?, ?, ?, ?, 1)
-        """, (st.session_state.user_id, video_id, completion_percentage, is_completed))
-    
-    conn.commit()
-    conn.close()
-
-def show_my_progress():
-    """Show student's learning progress"""
-    st.markdown("#### My Progress")
-    
-    conn = sqlite3.connect(DB_FILE)
-    
-    # Overall statistics
-    cursor = conn.cursor()
-    cursor.execute(
-        "SELECT COUNT(*) FROM user_progress WHERE student_id = ?",
-        (st.session_state.user_id,)
-    )
-    videos_watched = cursor.fetchone()[0]
-    
-    cursor.execute(
-        "SELECT COUNT(*) FROM user_progress WHERE student_id = ? AND is_completed = 1",
-        (st.session_state.user_id,)
-    )
-    videos_completed = cursor.fetchone()[0]
-    
-    cursor.execute(
-        "SELECT AVG(completion_percentage) FROM user_progress WHERE student_id = ?",
-        (st.session_state.user_id,)
-    )
-    avg_completion = cursor.fetchone()[0] or 0
-    
-    cursor.execute(
-        "SELECT SUM(watched_duration) FROM user_progress WHERE student_id = ?",
-        (st.session_state.user_id,)
-    )
-    total_watch_time = cursor.fetchone()[0] or 0
-    
-    # Display statistics
-    col1, col2, col3, col4 = st.columns(4)
-    
-    with col1:
-        st.metric("Videos Watched", videos_watched)
-    
-    with col2:
-        st.metric("Completed", videos_completed)
-    
-    with col3:
-        st.metric("Average Progress", f"{avg_completion:.1f}%")
-    
-    with col4:
-        st.metric("Total Watch Time", f"{total_watch_time//60}m")
-    
-    # Recent progress
-    st.markdown("##### Recent Activity")
-    recent_progress = pd.read_sql_query("""
-        SELECT v.title, v.subject_name, v.chapter_name, up.completion_percentage,
-               up.is_completed, up.last_watched, up.watch_count
-        FROM user_progress up
-        JOIN (
-            SELECT v.*, subm.subject_name, chm.chapter_name
-            FROM videos v
-            JOIN subject_master subm ON v.subject_id = subm.subject_id
-            JOIN chapter_master chm ON v.chapter_id = chm.chapter_id
-        ) v ON up.video_id = v.video_id
-        WHERE up.student_id = ?
-        ORDER BY up.last_watched DESC
-        LIMIT 10
-    """, conn, params=(st.session_state.user_id,))
-    
-    if not recent_progress.empty:
-        #======================================================
-        st.dataframe(
-            recent_progress,
-            column_config={
-                "title": "Video Title",
-                "subject_name": "Subject",
-                "chapter_name": "Chapter",
-                "completion_percentage": st.column_config.ProgressColumn(
-                    "Progress",
-                    min_value=0,
-                    max_value=100,
-                    format="%.1f%%"
-                ),
-                "is_completed": st.column_config.CheckboxColumn("Completed"),
-                "watch_count": st.column_config.NumberColumn("Views"),
-                "last_watched": st.column_config.TextColumn("Last Watched")  # Changed from DatetimeColumn
-            },
-            hide_index=True,
-            use_container_width=True
-        )
-
-        #================================================================
-
-    else:
-        st.info("No progress data available. Start watching videos to see your progress!")
-    
-    # Subject-wise progress
-    st.markdown("##### Subject-wise Progress")
-    subject_progress = pd.read_sql_query("""
-        SELECT subm.subject_name, 
-               COUNT(up.video_id) as videos_watched,
-               AVG(up.completion_percentage) as avg_progress,
-               SUM(CASE WHEN up.is_completed = 1 THEN 1 ELSE 0 END) as completed_videos
-        FROM user_progress up
-        JOIN videos v ON up.video_id = v.video_id
-        JOIN subject_master subm ON v.subject_id = subm.subject_id
-        WHERE up.student_id = ?
-        GROUP BY v.subject_id
-        ORDER BY avg_progress DESC
-    """, conn, params=(st.session_state.user_id,))
-    
-    if not subject_progress.empty:
-        st.bar_chart(subject_progress.set_index('subject_name')['avg_progress'])
-        
-        st.dataframe(
-            subject_progress,
-            column_config={
-                "subject_name": "Subject",
-                "videos_watched": st.column_config.NumberColumn("Videos Watched"),
-                "avg_progress": st.column_config.NumberColumn("Average Progress %", format="%.1f"),
-                "completed_videos": st.column_config.NumberColumn("Completed Videos")
-            },
-            hide_index=True,
-            use_container_width=True
-        )
-    else:
-        st.info("No subject progress available yet.")
-    
-    conn.close()
-
-def show_student_profile():
-    """Show and edit student profile"""
-    st.markdown("#### My Profile")
-    
-    # Get student information
-    conn = sqlite3.connect(DB_FILE)
-    student_df = pd.read_sql_query("""
-        SELECT s.*, sm.stream_name, cm.class_name
-        FROM students s
-        LEFT JOIN stream_master sm ON s.stream_id = sm.stream_id
-        LEFT JOIN class_master cm ON s.class_id = cm.class_id
-        WHERE s.student_id = ?
-    """, conn, params=(st.session_state.user_id,))
-    
-    if student_df.empty:
-        st.error("Profile information not found.")
-        return
-    
-    student = student_df.iloc[0]
-    
-    # Display profile information
-    col1, col2 = st.columns(2)
-    
-    with col1:
-        st.markdown("##### Personal Information")
-        st.write(f"**Name:** {student['name']}")
-        st.write(f"**Mobile:** {student['mobile_no']}")
-        st.write(f"**Date of Birth:** {student.get('dob', 'Not provided')}")
-        st.write(f"**City:** {student.get('city', 'Not provided')}")
-        st.write(f"**State:** {student.get('state', 'Not provided')}")
-    
-    with col2:
-        st.markdown("##### Academic Information")
-        st.write(f"**Stream:** {student.get('stream_name', 'Not assigned')}")
-        st.write(f"**Class:** {student.get('class_name', 'Not assigned')}")
-        st.write(f"**College:** {student.get('college_name', 'Not provided')}")
-        st.write(f"**Registration Date:** {student['created_at'][:10]}")
-        st.write(f"**Last Login:** {student.get('last_login', 'Never')}")
-    
-    # Address information
-    if any([student.get('address_1'), student.get('address_2'), 
-            student.get('address_3'), student.get('address_4')]):
-        st.markdown("##### Address")
-        address_parts = [
-            student.get('address_1', ''),
-            student.get('address_2', ''),
-            student.get('address_3', ''),
-            student.get('address_4', ''),
-            student.get('city', ''),
-            student.get('state', ''),
-            student.get('pin_code', '')
-        ]
-        address = ', '.join([part for part in address_parts if part])
-        st.write(address)
-    
-    # Account status
-    st.markdown("##### Account Status")
-    status_col1, status_col2 = st.columns(2)
-    with status_col1:
-        if student['is_active']:
-            st.success("✅ Account Active")
-        else:
-            st.error("❌ Account Inactive")
-    
-    with status_col2:
-        if student['video_enabled']:
-            st.success("✅ Video Access Enabled")
-        else:
-            st.error("❌ Video Access Disabled")
-    
-    conn.close()
-
-# =============================================================================
-# MAIN APPLICATION CONTROLLER
-# =============================================================================
-
-def main():
-    """Main application controller"""
-    #=====================================================
-# Add this code to your main() function in tutorial_video_app.py
-# Place it right after your function definition, before any other Streamlit code
-
-
-    # Mobile-responsive CSS - Add this at the very beginning of your main() function
-    st.markdown("""
-        <style>
-        /* Mobile responsiveness */
-        @media (max-width: 768px) {
-            .main > div {
-                padding: 0.5rem;
-            }
-            .stButton > button {
-                height: 3rem;
-                font-size: 1.1rem;
-            }
-            .welcome-title {
-                font-size: 2rem !important;
-            }
-        }
-       
-        /* Better mobile navigation */
-        .stTabs [data-baseweb="tab-list"] {
-            gap: 0.2rem;
-        }
-       
-        .stTabs [data-baseweb="tab"] {
-            padding: 0.5rem 1rem;
-            font-size: 0.9rem;
-        }
-       
-        /* Mobile form optimization */
-        .stTextInput > div > div > input {
-            font-size: 1rem;
-        }
-       
-        /* Better mobile tables */
-        .dataframe {
-            font-size: 0.8rem;
-        }
-        </style>
-    """, unsafe_allow_html=True)
-    
-    # Your existing code continues here...
-    # (Keep all your current app code below this CSS section)
-
-    #=====================================================
-    st.set_page_config(
-        page_title=APP_CONFIG['app_name'],
-        page_icon="📚",
-        layout="wide",
-        initial_sidebar_state="collapsed"
-    )
-    
-    # Initialize database and session
-    init_database()
-    initialize_session()
-    
-    # Custom CSS for better styling
-    st.markdown("""
-        <style>
-        .main > div {
-            padding: 1rem;
-        }
-        .stButton > button {
-            width: 100%;
-        }
-        .metric-container {
-            background: #f0f2f6;
-            padding: 1rem;
-            border-radius: 0.5rem;
-            margin: 0.5rem 0;
-        }
-        .video-card {
-            border: 1px solid #e0e0e0;
-            border-radius: 0.5rem;
-            padding: 1rem;
-            margin: 0.5rem 0;
-        }
-        </style>
-    """, unsafe_allow_html=True)
-    
-    # Route to appropriate screen
-    if st.session_state.screen == 'welcome':
-        show_welcome_screen()
-    
-    elif st.session_state.screen == 'login_selection':
-        show_login_selection()
-    
-    elif st.session_state.screen == 'admin_login':
-        show_admin_login()
-    
-    elif st.session_state.screen == 'student_login':
-        show_student_login()
-    
-    elif st.session_state.screen == 'admin_dashboard':
-        if st.session_state.is_authenticated and st.session_state.user_type == 'admin':
-            show_admin_dashboard()
-        else:
-            st.error("Unauthorized access. Please login first.")
-            st.session_state.screen = 'welcome'
-            st.rerun()
-    
-    elif st.session_state.screen == 'student_interface':
-        if st.session_state.is_authenticated and st.session_state.user_type == 'student':
-            show_student_interface()
-        else:
-            st.error("Unauthorized access. Please login first.")
-            st.session_state.screen = 'welcome'
-            st.rerun()
-    elif st.session_state.screen == 'student_registration':
-        show_student_registration()
-
-    else:
-        st.session_state.screen = 'welcome'
-        st.rerun()
-
-# =============================================================================
-# APPLICATION RUNNER
-# =============================================================================
-
+# Start the application
 if __name__ == "__main__":
-    main()
+    CXSMaCxfaRTo()
+
+    
+
+    
+     
