@@ -1,0 +1,73 @@
+{
+  "name": "Arya Educations Mobile App",
+  "short_name": "Arya Edu",
+  "id": "com.aryaeducations.app",
+  "description": "Mobile learning platform for Arya Educations students - Guided by Mr. Sagar Konde & Mr. Rahul Bhujbal",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#FF6B6B",
+  "orientation": "portrait",
+  "scope": "/",
+  "scope_extensions": [
+    {
+      "origin": "*"
+    }
+  ],
+  "lang": "en",
+  "dir": "ltr",
+  "categories": ["education", "learning", "tutorial"],
+  "iarc_rating_id": "e84b072d-71b3-4d3e-86ae-31a8ce4e53b7",
+  "related_applications": [],
+  "prefer_related_applications": false,
+  "launch_handler": {
+    "client_mode": "focus-existing"
+  },
+  "icons": [
+    {
+      "src": "https://via.placeholder.com/192x192/FF6B6B/ffffff?text=AE",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "https://via.placeholder.com/512x512/FF6B6B/ffffff?text=AE",
+      "sizes": "512x512", 
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Mathematics",
+      "short_name": "Math",
+      "description": "Access Mathematics tutorials",
+      "url": "/?course=math",
+      "icons": [
+        {
+          "src": "https://via.placeholder.com/96x96/4ECDC4/ffffff?text=M",
+          "sizes": "96x96"
+        }
+      ]
+    },
+    {
+      "name": "Physics", 
+      "short_name": "Physics",
+      "description": "Access Physics tutorials",
+      "url": "/?course=physics",
+      "icons": [
+        {
+          "src": "https://via.placeholder.com/96x96/45B7D1/ffffff?text=P", 
+          "sizes": "96x96"
+        }
+      ]
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "https://via.placeholder.com/540x720/FF6B6B/ffffff?text=Arya+Educations+Mobile",
+      "sizes": "540x720",
+      "type": "image/png"
+    }
+  ]
+}
